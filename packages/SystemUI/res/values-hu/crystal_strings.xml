@@ -16,4 +16,9 @@
     <string name="accessibility_quick_settings_heads_up_off">Beugró értesítések ki.</string>
     <string name="accessibility_quick_settings_heads_up_on">Beugró értesítések be.</string>
 
+	<!-- Sync QS tile -->
+    <string name="quick_settings_sync_label">Szinkronizáció</string>
+    <string name="accessibility_quick_settings_sync_off">Szinkronizáció ki.</string>
+    <string name="accessibility_quick_settings_sync_on">Szinkronizáció be.</string>
+
 </resources>
