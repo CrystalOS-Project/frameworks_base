@@ -26,4 +26,7 @@
     <string name="accessibility_quick_settings_sync_off">Szinkronizáció ki.</string>
     <string name="accessibility_quick_settings_sync_on">Szinkronizáció be.</string>
 
+	<!-- USB tethering QS tile -->
+	<string name="quick_settings_usb_tether_label">USB internetmegosztás</string>
+
 </resources>
