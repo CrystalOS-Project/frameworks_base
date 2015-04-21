@@ -11,4 +11,9 @@
     <string name="accessibility_quick_settings_caffeine_off">Koffein ki.</string>
     <string name="accessibility_quick_settings_caffeine_on">Koffein be.</string>
 
+    <!-- Heads up QS tile -->
+    <string name="quick_settings_heads_up_label">Beugró értesítések</string>
+    <string name="accessibility_quick_settings_heads_up_off">Beugró értesítések ki.</string>
+    <string name="accessibility_quick_settings_heads_up_on">Beugró értesítések be.</string>
+
 </resources>
