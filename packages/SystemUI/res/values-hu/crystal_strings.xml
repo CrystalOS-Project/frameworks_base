@@ -94,4 +94,9 @@
     <!-- Scarlet -->
     <string name="scarlet_wake_screen">A képernyő felkelt, Scarlet szolgáltatás leállítása</string>
 
+    <!-- Heads up QS tile -->
+    <string name="quick_settings_heads_up_label">Heads up</string>
+    <string name="accessibility_quick_settings_heads_up_off">Heads up kikapcsolva.</string>
+    <string name="accessibility_quick_settings_heads_up_on">Heads up bekapcsolva.</string>
+
 </resources>
