@@ -6,6 +6,6 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <!-- Vendor mismatch fingerprint warning [CHAR LIMIT=NONE] -->
-    <string name="system_error_vendorprint">Úgy tűnik az eszköz vendorja elavult. Kérem telepítse az eszközhöz elérhető legújabb vendort!</string>
+	<string name="system_error_vendorprint">A vendor biztonsági javítása nem egyezik a rendszerével. Kérem telepítse a <xliff:g id="string">%s</xliff:g> javítási színtű vendort az eszközhöz!</string>
 
 </resources>
