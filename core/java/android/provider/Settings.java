@@ -5683,10 +5683,6 @@ public final class Settings {
          */
         public static final String RECENTS_LOCKED_TASKS = "recents_locked_tasks";
 
-        /** ================================================================================================================================================================= */
-        /** ==================================================================== Init Xtended Setting Strings ==================================================================== */
-        /** ================================================================================================================================================================= */
-
         /**
          * Whether user can swap the order of the Alert Slider.
          * * Whether user can invert the order of the Alert Slider.
@@ -11451,6 +11447,18 @@ public final class Settings {
          * @hide
          */
         public static final String MONET_ENGINE_WHITE_LUMINANCE = "monet_engine_white_luminance";
+
+        /**
+         * Whether to show the brightness slider in quick settings panel.
+         * @hide
+         */
+        public static final String QS_SHOW_BRIGHTNESS_SLIDER = "qs_show_brightness_slider";
+
+        /**
+         * Whether to show the auto brightness icon in quick settings panel.
+         * @hide
+         */
+        public static final String QS_SHOW_AUTO_BRIGHTNESS = "qs_show_auto_brightness";
 
         /**
          * These entries are considered common between the personal and the managed profile,
