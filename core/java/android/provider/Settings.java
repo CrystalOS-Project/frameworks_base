@@ -5488,6 +5488,14 @@ public final class Settings {
         public static final String FP_UNLOCK_KEYSTORE = "fp_unlock_keystore";
 
 	/**
+         * Whether to play notification sound and vibration if screen is ON
+         * 0 - never
+         * 1 - always
+         * @hide
+         */
+        public static final String NOTIFICATION_SOUND_VIB_SCREEN_ON = "notification_sound_vib_screen_on";
+
+	/**
          * Whether or not volume button music controls should be enabled to seek media tracks
          * @hide
          */
