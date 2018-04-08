@@ -67,4 +67,8 @@
     <string name="global_action_restart_bootloader">Bootloader</string>
     <string name="global_action_restart_ui">RendszerUI</string>
 
+    <!-- Smart Pixels QS Tile -->
+    <string name="quick_settings_smart_pixels">Intelligens Pixelek</string>
+    <string name="quick_settings_smart_pixels_on_power_save">Intelligens Pixelek automatikusan bekapcsolva</string>
+
 </resources>
