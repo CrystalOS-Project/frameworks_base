@@ -25,4 +25,8 @@
     <string name="permgrouprequest_fake_package_signature">Allow
         &lt;b><xliff:g id="app_name" example="Gmail">%1$s</xliff:g>&lt;/b> to spoof package signature?</string>
 
+    <!-- Alert slider proc nodes paths. -->
+    <string name="alert_slider_state_path"></string>
+    <string name="alert_slider_uevent_match_path"></string>
+
 </resources>
