@@ -5623,6 +5623,12 @@ public final class Settings {
          * @hide
          */
         public static final String HIDE_LOCKSCREEN_STATUS_BAR = "hide_lockscreen_status_bar";
+		
+	/**
+         * Whether to show the battery info on the lockscreen while charging
+         * @hide
+         */
+        public static final String LOCKSCREEN_BATTERY_INFO = "lockscreen_battery_info";
 
         /**
          * Keys we no longer back up under the current schema, but want to continue to
