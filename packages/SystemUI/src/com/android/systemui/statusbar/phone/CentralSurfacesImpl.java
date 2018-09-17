@@ -60,6 +60,7 @@ import android.app.admin.DevicePolicyManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentCallbacks2;
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -67,6 +68,7 @@ import android.content.pm.IPackageManager;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
+import android.database.ContentObserver;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.hardware.devicestate.DeviceStateManager;
@@ -4035,6 +4037,42 @@ public class CentralSurfacesImpl extends CoreStartable implements
     @Override
     public boolean isDeviceInteractive() {
         return mDeviceInteractive;
+    }
+
+    private CrystalSettingsObserver mCrystalSettingsObserver = new CrystalSettingsObserver(mMainHandler);
+    private class CrystalSettingsObserver extends ContentObserver {
+        CrystalSettingsObserver(Handler handler) {
+            super(handler);
+        }
+
+        void observe() {
+            ContentResolver resolver = mContext.getContentResolver();
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.BURN_IN_PROTECTION),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.BURN_IN_PROTECTION_INTERVAL),
+                    false, this, UserHandle.USER_ALL);
+        }
+
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            super.onChange(selfChange, uri);
+            if (uri.equals(Settings.System.getUriFor(Settings.System.BURN_IN_PROTECTION)) ||
+                uri.equals(Settings.System.getUriFor(Settings.System.BURN_IN_PROTECTION_INTERVAL))) {
+                updateBurnInSets();
+            }
+        }
+
+        public void update() {
+            updateBurnInSets();
+        }
+    }
+
+    private void updateBurnInSets() {
+        if (mBurnInProtectionController != null) {
+            mBurnInProtectionController.updateSettings();
+        }
     }
 
     private final BroadcastReceiver mBannerActionBroadcastReceiver = new BroadcastReceiver() {
