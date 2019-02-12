@@ -165,7 +165,7 @@ public class KeyguardIndicationController {
     private boolean mBatteryOverheated;
     private boolean mEnableBatteryDefender;
     private int mChargingSpeed;
-    private int mChargingWattage;
+    private double mChargingWattage;
     private int mBatteryLevel;
     private boolean mBatteryPresent = true;
     private long mChargingTimeRemaining;
@@ -916,12 +916,28 @@ public class KeyguardIndicationController {
                     : R.string.keyguard_plugged_in;
         }
 
-        final String percentage = NumberFormat.getPercentInstance().format(mBatteryLevel / 100f);
-        String batteryInfo = "\n";
-        if (mShowBatteryInfo) {
-            batteryInfo += (mChargingCurrent / 1000) + "mA";
-            batteryInfo += " · " + String.format("%.1f", (mChargingVoltage / 1000000)) + "V";
-            batteryInfo += " · " +  mTemperature / 10 + "°C";
+        String batteryInfo = "";
+        boolean showbatteryInfo = Settings.System.getIntForUser(mContext.getContentResolver(),
+            Settings.System.LOCKSCREEN_BATTERY_INFO, 1, UserHandle.USER_CURRENT) == 1;
+        if (showbatteryInfo) {
+            if (mChargingCurrent > 0) {
+                batteryInfo = batteryInfo + (mChargingCurrent / 1000) + "mA";
+            }
+            if (mChargingWattage > 0) {
+                batteryInfo = (batteryInfo == "" ? "" : batteryInfo + " · ") +
+                        String.format("%.1f" , (mChargingWattage / 1000 / 1000)) + "W";
+            }
+            if (mChargingVoltage > 0) {
+                batteryInfo = (batteryInfo == "" ? "" : batteryInfo + " · ") +
+                        String.format("%.1f", (mChargingVoltage / 1000 / 1000)) + "V";
+            }
+            if (mTemperature > 0) {
+                batteryInfo = (batteryInfo == "" ? "" : batteryInfo + " · ") +
+                        mTemperature / 10 + "°C";
+            }
+            if (batteryInfo != "") {
+                batteryInfo = "\n" + batteryInfo;
+            }
         }
 
         if (hasChargingTime) {
