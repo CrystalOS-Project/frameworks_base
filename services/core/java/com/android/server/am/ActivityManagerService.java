@@ -1562,9 +1562,6 @@ public class ActivityManagerService extends IActivityManager.Stub
     static final HostingRecord sNullHostingRecord =
             new HostingRecord(HostingRecord.HOSTING_TYPE_EMPTY);
 
-    final SwipeToScreenshotObserver mSwipeToScreenshotObserver;
-    private boolean mIsSwipeToScreenshotEnabled;
-
     /**
      * Used to notify activity lifecycle events.
      */
@@ -1614,7 +1611,7 @@ public class ActivityManagerService extends IActivityManager.Stub
 
     // Swipe to screenshot
     final SwipeToScreenshotObserver mSwipeToScreenshotObserver;
-    private boolean mIsSwipeToScrenshotEnabled;
+    private boolean mIsSwipeToScreenshotEnabled;
 
     final class UiHandler extends Handler {
         public UiHandler() {
@@ -2491,7 +2488,6 @@ public class ActivityManagerService extends IActivityManager.Stub
 
         mInternal = new LocalService();
         mPendingStartActivityUids = new PendingStartActivityUids();
-        mSwipeToScreenshotObserver = new SwipeToScreenshotObserver(mHandler, mContext);
         mTraceErrorLogger = new TraceErrorLogger();
         mComponentAliasResolver = new ComponentAliasResolver(this);
         mSwipeToScreenshotObserver = new SwipeToScreenshotObserver(mHandler, mContext);
@@ -8087,7 +8083,6 @@ public class ActivityManagerService extends IActivityManager.Stub
         mSwipeToScreenshotObserver.registerObserver();
         mAppErrors.loadAppsNotReportingCrashesFromConfig(res.getString(
                 com.android.internal.R.string.config_appsNotReportingCrashes));
-        mSwipeToScreenshotObserver.registerObserver();
     }
 
     /**
@@ -18564,39 +18559,6 @@ public class ActivityManagerService extends IActivityManager.Stub
         }
     }
 
-    private class SwipeToScreenshotObserver extends ContentObserver {
-
-        private final Context mContext;
-
-        public SwipeToScreenshotObserver(Handler handler, Context context) {
-            super(handler);
-            mContext = context;
-        }
-
-        public void registerObserver() {
-            mContext.getContentResolver().registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.THREE_FINGER_GESTURE),
-                    false, this, UserHandle.USER_ALL);
-            update();
-        }
-
-        private void update() {
-            mIsSwipeToScreenshotEnabled = Settings.System.getIntForUser(mContext.getContentResolver(),
-                    Settings.System.THREE_FINGER_GESTURE, 0, UserHandle.USER_CURRENT) == 1;
-        }
-
-        public void onChange(boolean selfChange) {
-            update();
-        }
-    }
-
-    @Override
-    public boolean isSwipeToScreenshotGestureActive() {
-        synchronized (this) {
-            return mIsSwipeToScreenshotEnabled && SystemProperties.getBoolean("sys.android.screenshot", false);
-        }
-    }
-
     /**
      * Suppress or reenable the rate limit on foreground service notification deferral.
      * @param enable false to suppress rate-limit policy; true to reenable it.
@@ -18716,7 +18678,7 @@ public class ActivityManagerService extends IActivityManager.Stub
         }
 
         private void update() {
-            mIsSwipeToScrenshotEnabled = Settings.System.getIntForUser(mContext.getContentResolver(),
+            mIsSwipeToScreenshotEnabled = Settings.System.getIntForUser(mContext.getContentResolver(),
                     Settings.System.SWIPE_TO_SCREENSHOT, 0, UserHandle.USER_CURRENT) == 1;
         }
 
@@ -18725,10 +18687,9 @@ public class ActivityManagerService extends IActivityManager.Stub
         }
     }
 
-    @Override
     public boolean isSwipeToScreenshotGestureActive() {
         synchronized (this) {
-            return mIsSwipeToScrenshotEnabled && SystemProperties.getBoolean("sys.android.screenshot", false);
+            return mIsSwipeToScreenshotEnabled;
         }
     }
 }
