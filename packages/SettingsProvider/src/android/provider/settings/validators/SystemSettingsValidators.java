@@ -232,6 +232,6 @@ public class SystemSettingsValidators {
                         return true;
                     }
                 });
-
+        VALIDATORS.put(System.SWIPE_TO_SCREENSHOT, BOOLEAN_VALIDATOR);
     }
 }

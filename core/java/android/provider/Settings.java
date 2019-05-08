@@ -6076,6 +6076,12 @@ public final class Settings {
         public static final String SCARLET_IDLE_ASSISTANT_MANAGER = "scarlet_idle_assistant_manager";
 
         /**
+         * Swipe to screenshot
+         * @hide
+         */
+        public static final String SWIPE_TO_SCREENSHOT = "swipe_to_screenshot";
+
+        /**
          * Whether to enable Photos unlimited storage
          * @hide
          */
@@ -6265,6 +6271,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(TRANSPARENT_POWER_DIALOG_DIM);
             PRIVATE_SETTINGS.add(FORCE_FULLSCREEN_CUTOUT_APPS);
             PRIVATE_SETTINGS.add(DESKTOP_MODE);
+            PRIVATE_SETTINGS.add(SWIPE_TO_SCREENSHOT);
         }
 
         /**
