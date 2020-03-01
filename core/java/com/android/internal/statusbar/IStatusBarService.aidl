@@ -229,4 +229,7 @@ interface IStatusBarService
     void unregisterNearbyMediaDevicesProvider(in INearbyMediaDevicesProvider provider);
 
     void toggleCameraFlash();
+
+    /** Doesnt need explanation **/
+    void killForegroundApp();
 }
