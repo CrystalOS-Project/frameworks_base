@@ -46,4 +46,8 @@
     <string name="force_stop_dlg_title">Force stop this application?</string>
     <string name="force_stop_dlg_text">If you force stop an app, it may misbehave.</string>
 
+    <!-- Alert slide extras -->
+    <string name="volume_ringer_priority_only">Priority</string>
+    <string name="volume_ringer_alarms_only">Alarms</string>
+
 </resources>
