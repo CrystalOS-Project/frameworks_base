@@ -49,5 +49,7 @@
     <!-- Alert slide extras -->
     <string name="volume_ringer_priority_only">Prioritás</string>
     <string name="volume_ringer_alarms_only">Riasztások</string>
+    <string name="volume_ringer_dnd">Ne Zavarjanak</string>
+    <string name="tristate_flashlight">Zseblámpla</string>
 
 </resources>
