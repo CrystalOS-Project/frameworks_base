@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2020-22 The CherishOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- SystemUI Restart -->
+    <string name="systemui_restart_title">A RendszerUI újraindítása szükséges</string>
+    <string name="systemui_restart_message">A változások alkalmazásához újra kell indítani a RendszerUI-t. Újraindítja most?</string>
+
+</resources>
