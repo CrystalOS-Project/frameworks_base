@@ -93,6 +93,7 @@ public class SystemSettings {
         Settings.System.LOCKSCREEN_BATTERY_INFO,
         Settings.System.ENABLE_RIPPLE_EFFECT,
         Settings.System.TORCH_POWER_BUTTON_GESTURE,
-        Settings.System.RINGTONE_VIBRATION_PATTERN
+        Settings.System.RINGTONE_VIBRATION_PATTERN,
+        Settings.System.CUSTOM_RINGTONE_VIBRATION_PATTERN
     };
 }
