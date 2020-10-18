@@ -25,4 +25,12 @@
     <string name="permgrouprequest_fake_package_signature">Engedélyezi a
         &lt;b><xliff:g id="app_name" example="Gmail">%1$s</xliff:g>&lt;/b>-nak/nek hogy hamisítsa a csomag aláírást?</string>
 
+    <!-- Advanced reboot -->
+    <string name="reboot_to_recovery_title" translatable="false">Recovery</string>
+    <string name="reboot_to_recovery_message" translatable="false">Újraindítás Recovery módban</string>
+    <string name="reboot_to_bootloader_title" translatable="false">Bootloader</string>
+    <string name="reboot_to_bootloader_message" translatable="false">Újraindítás Bootloader módban</string>
+    <string name="reboot_title">Újraindítás</string>
+    <string name="reboot_message">Rendszer újraindítása</string>
+
 </resources>
