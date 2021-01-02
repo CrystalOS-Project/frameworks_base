@@ -435,6 +435,11 @@ public class NavigationBarEdgePanel extends View implements NavigationEdgeBackPl
         mWindowManager.addView(this, mLayoutParams);
     }
 
+    @Override
+    public void setBackArrowVisibility(boolean backArrowVisibility) {
+        mBackArrowVisibility = backArrowVisibility;
+    }
+
     /**
      * Adjusts the sampling rect to conform to the actual visible bounding box of the arrow.
      */

@@ -320,10 +320,10 @@ public class EdgeBackGestureHandler extends CurrentUserTracker
         }
     };
 
-    private boolean mIsBackGestureArrowEnabled;
-
     private final Consumer<Boolean> mOnIsInPipStateChangedListener =
             (isInPip) -> mIsInPip = isInPip;
+
+    private boolean mIsBackGestureArrowEnabled;
 
     EdgeBackGestureHandler(
             Context context,
@@ -862,6 +862,7 @@ public class EdgeBackGestureHandler extends CurrentUserTracker
                     && isWithinTouchRegion((int) ev.getX(), (int) ev.getY());
             if (mAllowGesture) {
                 mEdgeBackPlugin.setIsLeftPanel(mIsOnLeftEdge);
+                mEdgeBackPlugin.setBackArrowVisibility(mIsBackGestureArrowEnabled);
                 mEdgeBackPlugin.onMotionEvent(ev);
                 dispatchToBackAnimation(ev);
             }
