@@ -50,6 +50,15 @@
     <string name="volume_ringer_priority_only">Prioritás</string>
     <string name="volume_ringer_alarms_only">Riasztások</string>
     <string name="volume_ringer_dnd">Ne Zavarjanak</string>
-    <string name="tristate_flashlight">Zseblámpla</string>
+    <string name="tristate_flashlight_on">Zseblámpa be</string>
+    <string name="tristate_flashlight_off">Zseblámpa ki</string>
+    <string name="tristate_flashlight_blink">Zseblámpa villogás</string>
+    <string name="tristate_brightness_bright">Maximum fényerő</string>
+    <string name="tristate_brightness_dark">Minimum fényerő</string>
+    <string name="tristate_brightness_auto">Automatikus fényerő</string>
+    <string name="tristate_rotation_auto">Automatikus forgatás</string>
+    <string name="tristate_rotation_0">Függőleges</string>
+    <string name="tristate_rotation_90">Vízszintes (90°)</string>
+    <string name="tristate_rotation_270">Vízszintes (270°)</string>
 
 </resources>
