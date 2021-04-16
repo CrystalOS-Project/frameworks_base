@@ -41,6 +41,7 @@ import android.os.Process;
 import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.SystemClock;
+import android.os.SystemProperties;
 import android.os.TestLooperManager;
 import android.os.UserHandle;
 import android.util.AndroidRuntimeException;
@@ -60,6 +61,7 @@ import com.android.internal.content.ReferrerIntent;
 import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -1157,6 +1159,7 @@ public class Instrumentation {
         Application app = getFactory(context.getPackageName())
                 .instantiateApplication(cl, className);
         app.attach(context);
+        maybeSpoofBuild(app);
         return app;
     }
     
@@ -1174,6 +1177,7 @@ public class Instrumentation {
             ClassNotFoundException {
         Application app = (Application)clazz.newInstance();
         app.attach(context);
+        maybeSpoofBuild(app);
         return app;
     }
 
@@ -1229,7 +1233,7 @@ public class Instrumentation {
     public void callApplicationOnCreate(Application app) {
         app.onCreate();
     }
-    
+
     /**
      * Perform instantiation of an {@link Activity} object.  This method is intended for use with
      * unit tests, such as android.test.ActivityUnitTestCase.  The activity will be useable
