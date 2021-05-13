@@ -5507,6 +5507,13 @@ public final class Settings {
          */
         public static final String FP_UNLOCK_KEYSTORE = "fp_unlock_keystore";
 
+        /**
+         * Whether auto brightness is applied one shot when screen is turned on.
+         * Default 0
+         * @hide
+         */
+        public static final String AUTO_BRIGHTNESS_ONE_SHOT = "auto_brightness_one_shot";
+
 	/**
          * Whether to play notification sound and vibration if screen is ON
          * 0 - never
