@@ -37,4 +37,11 @@
     <string name="reboot_title">Újraindítás</string>
     <string name="reboot_message">Rendszer újraindítása</string>
 
+    <!-- Sleep Mode -->
+    <string name="notification_channel_sleep">Lefekvés Mód</string>
+    <string name="sleep_mode_notification_title">Lefekvés mód aktív</string>
+    <string name="sleep_mode_notification_content">Érintse meg a lefekvés mód kikapcsolásához</string>
+    <string name="sleep_mode_enabled_toast">Lefekvés mód bekapcsolva</string>
+    <string name="sleep_mode_disabled_toast">Lefekvés mód kikapcsolva</string>
+
 </resources>
