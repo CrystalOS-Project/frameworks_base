@@ -239,6 +239,18 @@ public final class PeriodicAdvertisingManager {
                     }
                 });
             }
+
+            public void onSyncTransfered(BluetoothDevice device, int status) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onSyncTransfered(device, status);
+                        // App can still unregister the sync until notified it's lost.
+                        // Remove callback after app was notifed.
+                        //mCallbackWrappers.remove(callback);
+                    }
+                });
+            }
         };
     }
 }

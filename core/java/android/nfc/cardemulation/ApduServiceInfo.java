@@ -48,7 +48,7 @@ import java.util.Map;
 /**
  * @hide
  */
-public final class ApduServiceInfo implements Parcelable {
+public class ApduServiceInfo implements Parcelable {
     static final String TAG = "ApduServiceInfo";
 
     /**

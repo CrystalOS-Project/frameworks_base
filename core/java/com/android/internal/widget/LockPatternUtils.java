@@ -104,6 +104,11 @@ public class LockPatternUtils {
      */
     public static final int MIN_LOCK_PASSWORD_SIZE = 4;
 
+    /*
+     * The default size of the pattern lockscreen. Ex: 3x3
+     */
+    public static final byte PATTERN_SIZE_DEFAULT = 3;
+
     /**
      * The minimum number of dots the user must include in a wrong pattern attempt for it to be
      * counted.
@@ -1066,6 +1071,40 @@ public class LockPatternUtils {
             Log.e(TAG, "failed to get credential type", re);
             return CREDENTIAL_TYPE_NONE;
         }
+    }
+
+    /**
+     * @return the pattern lockscreen size
+     */
+    public byte getLockPatternSize(int userId) {
+        long size = getLong(Settings.Secure.LOCK_PATTERN_SIZE, -1, userId);
+        if (size > 0 && size < 128) {
+            return (byte) size;
+        }
+        return LockPatternUtils.PATTERN_SIZE_DEFAULT;
+    }
+
+    /**
+     * Set the pattern lockscreen size
+     */
+    public void setLockPatternSize(long size, int userId) {
+        setLong(Settings.Secure.LOCK_PATTERN_SIZE, size, userId);
+    }
+
+    public void setVisibleDotsEnabled(boolean enabled, int userId) {
+        setBoolean(Settings.Secure.LOCK_DOTS_VISIBLE, enabled, userId);
+    }
+
+    public boolean isVisibleDotsEnabled(int userId) {
+        return getBoolean(Settings.Secure.LOCK_DOTS_VISIBLE, true, userId);
+    }
+
+    public void setShowErrorPath(boolean enabled, int userId) {
+        setBoolean(Settings.Secure.LOCK_SHOW_ERROR_PATH, enabled, userId);
+    }
+
+    public boolean isShowErrorPath(int userId) {
+        return getBoolean(Settings.Secure.LOCK_SHOW_ERROR_PATH, true, userId);
     }
 
     /**

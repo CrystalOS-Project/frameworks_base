@@ -69,6 +69,11 @@ public final class ScanSettings implements Parcelable {
      */
     public static final int CALLBACK_TYPE_MATCH_LOST = 4;
 
+    /**
+     * Provide results to sensor router instead of the apps processor
+     * @hide
+     */
+    public static final int CALLBACK_TYPE_SENSOR_ROUTING = 8;
 
     /**
      * Determines how many advertisements to match per filter, as this is scarce hw resource

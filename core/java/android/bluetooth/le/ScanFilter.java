@@ -47,6 +47,12 @@ import java.util.UUID;
  */
 public final class ScanFilter implements Parcelable {
 
+    /**
+    * Provide TDS data scan results for WiFi Alliance Org id
+    * @hide
+    */
+    public static final int WIFI_ALLIANCE_ORG_ID = 2;
+
     @Nullable
     private final String mDeviceName;
 
@@ -76,6 +82,11 @@ public final class ScanFilter implements Parcelable {
     @Nullable
     private final byte[] mManufacturerDataMask;
 
+    private static int mOrgId;
+    private static int mTDSFlags;
+    private static int mTDSFlagsMask;
+    private static byte[] mWifiNANHash;
+
     /** @hide */
     public static final ScanFilter EMPTY = new ScanFilter.Builder().build();
 
@@ -84,7 +95,8 @@ public final class ScanFilter implements Parcelable {
             ParcelUuid uuidMask, ParcelUuid solicitationUuid,
             ParcelUuid solicitationUuidMask, ParcelUuid serviceDataUuid,
             byte[] serviceData, byte[] serviceDataMask,
-            int manufacturerId, byte[] manufacturerData, byte[] manufacturerDataMask) {
+            int manufacturerId, byte[] manufacturerData, byte[] manufacturerDataMask,
+            int orgId, int TDSFlags, int TDSFlagsMask, byte[] wifiNANHash) {
         mDeviceName = name;
         mServiceUuid = uuid;
         mServiceUuidMask = uuidMask;
@@ -97,6 +109,10 @@ public final class ScanFilter implements Parcelable {
         mManufacturerId = manufacturerId;
         mManufacturerData = manufacturerData;
         mManufacturerDataMask = manufacturerDataMask;
+        mOrgId = orgId;
+        mTDSFlags = TDSFlags;
+        mTDSFlagsMask = TDSFlagsMask;
+        mWifiNANHash = wifiNANHash;
     }
 
     @Override
@@ -310,6 +326,37 @@ public final class ScanFilter implements Parcelable {
     @Nullable
     public byte[] getManufacturerDataMask() {
         return mManufacturerDataMask;
+    }
+
+    /**
+     * @hide
+     * Returns the organization id. -1 if the organization id is not set.
+     */
+    public int getOrgId() {
+        return mOrgId;
+    }
+
+    /**
+     * @hide
+     * Returns the TDS flags. -1 if TDS flags is not set.
+     */
+    public int getTDSFlags() {
+        return mTDSFlags;
+    }
+
+    /**
+     * @hide
+     * Returns the TDS flags mask. -1 if TDS flags mask is not set.
+     */
+    public int getTDSFlagsMask() {
+        return mTDSFlagsMask;
+    }
+
+    /**
+     * @hide
+     */
+    public byte[] getWifiNANHash() {
+        return mWifiNANHash;
     }
 
     /**
@@ -718,6 +765,27 @@ public final class ScanFilter implements Parcelable {
         }
 
         /**
+         * @hide
+         * Set filter on transport discovery data.
+         * @throws IllegalArgumentException If the {@code orgId} is invalid or {@code
+         * wifiNANhash} is not null while {@code orgId} is non-Wifi.
+         */
+        public Builder setTransportDiscoveryData(int orgId, int TDSFlags, int TDSFlagsMask,
+                byte[] wifiNANHash) {
+            if (orgId < 0) {
+                throw new IllegalArgumentException("invalid organization id");
+            }
+            if ((orgId != WIFI_ALLIANCE_ORG_ID) && (wifiNANHash != null)) {
+                throw new IllegalArgumentException("Wifi NAN Hash is not null for non-Wifi Org Id");
+            }
+            mOrgId = orgId;
+            mTDSFlags = TDSFlags;
+            mTDSFlagsMask = TDSFlagsMask;
+            mWifiNANHash = wifiNANHash;
+            return this;
+        }
+        
+        /**
          * Build {@link ScanFilter}.
          *
          * @throws IllegalArgumentException If the filter cannot be built.
@@ -727,7 +795,8 @@ public final class ScanFilter implements Parcelable {
                     mServiceUuid, mUuidMask, mServiceSolicitationUuid,
                     mServiceSolicitationUuidMask,
                     mServiceDataUuid, mServiceData, mServiceDataMask,
-                    mManufacturerId, mManufacturerData, mManufacturerDataMask);
+                    mManufacturerId, mManufacturerData, mManufacturerDataMask,
+                    mOrgId, mTDSFlags, mTDSFlagsMask, mWifiNANHash);
         }
     }
 }

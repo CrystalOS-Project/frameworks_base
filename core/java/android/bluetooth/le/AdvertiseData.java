@@ -47,17 +47,20 @@ public final class AdvertiseData implements Parcelable {
     private final Map<ParcelUuid, byte[]> mServiceData;
     private final boolean mIncludeTxPowerLevel;
     private final boolean mIncludeDeviceName;
+    private static byte[] mTransportDiscoveryData;
 
     private AdvertiseData(List<ParcelUuid> serviceUuids,
             SparseArray<byte[]> manufacturerData,
             Map<ParcelUuid, byte[]> serviceData,
             boolean includeTxPowerLevel,
-            boolean includeDeviceName) {
+            boolean includeDeviceName,
+            byte[] transportDiscoveryData) {
         mServiceUuids = serviceUuids;
         mManufacturerSpecificData = manufacturerData;
         mServiceData = serviceData;
         mIncludeTxPowerLevel = includeTxPowerLevel;
         mIncludeDeviceName = includeDeviceName;
+        mTransportDiscoveryData = transportDiscoveryData;
     }
 
     /**
@@ -95,6 +98,14 @@ public final class AdvertiseData implements Parcelable {
      */
     public boolean getIncludeDeviceName() {
         return mIncludeDeviceName;
+    }
+
+    /**
+     * Returns an array of Transport Discovery data.
+     * @hide
+     */
+    public byte[] getTransportDiscoveryData() {
+        return mTransportDiscoveryData;
     }
 
     /**
@@ -280,7 +291,7 @@ public final class AdvertiseData implements Parcelable {
          */
         public AdvertiseData build() {
             return new AdvertiseData(mServiceUuids, mManufacturerSpecificData, mServiceData,
-                    mIncludeTxPowerLevel, mIncludeDeviceName);
+                    mIncludeTxPowerLevel, mIncludeDeviceName, mTransportDiscoveryData);
         }
     }
 }

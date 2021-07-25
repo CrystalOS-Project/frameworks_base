@@ -442,7 +442,7 @@ public final class BluetoothGattServer implements BluetoothProfile {
      * @return true, the callback will be called to notify success or failure, false on immediate
      * error
      */
-    /*package*/ boolean registerCallback(BluetoothGattServerCallback callback) {
+    /*package*/ boolean registerCallback(BluetoothGattServerCallback callback, boolean eattSupport) {
         if (DBG) Log.d(TAG, "registerCallback()");
         if (mService == null) {
             Log.e(TAG, "GATT service not available");
@@ -459,7 +459,7 @@ public final class BluetoothGattServer implements BluetoothProfile {
 
             mCallback = callback;
             try {
-                mService.registerServer(new ParcelUuid(uuid), mBluetoothGattServerCallback);
+                mService.registerServer(new ParcelUuid(uuid), mBluetoothGattServerCallback, eattSupport);
             } catch (RemoteException e) {
                 Log.e(TAG, "", e);
                 mCallback = null;

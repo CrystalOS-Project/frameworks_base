@@ -798,7 +798,7 @@ public final class BluetoothGatt implements BluetoothProfile {
      * @return If true, the callback will be called to notify success or failure, false on immediate
      * error
      */
-    private boolean registerApp(BluetoothGattCallback callback, Handler handler) {
+    private boolean registerApp(BluetoothGattCallback callback, Handler handler, boolean eattSupport) {
         if (DBG) Log.d(TAG, "registerApp()");
         if (mService == null) return false;
 
@@ -808,7 +808,7 @@ public final class BluetoothGatt implements BluetoothProfile {
         if (DBG) Log.d(TAG, "registerApp() - UUID=" + uuid);
 
         try {
-            mService.registerClient(new ParcelUuid(uuid), mBluetoothGattCallback);
+            mService.registerClient(new ParcelUuid(uuid), mBluetoothGattCallback, eattSupport);
         } catch (RemoteException e) {
             Log.e(TAG, "", e);
             return false;
@@ -858,10 +858,10 @@ public final class BluetoothGatt implements BluetoothProfile {
      */
     @UnsupportedAppUsage
     /*package*/ boolean connect(Boolean autoConnect, BluetoothGattCallback callback,
-            Handler handler) {
+            Handler handler, boolean eattSupport) {
         if (DBG) {
             Log.d(TAG,
-                    "connect() - device: " + mDevice.getAddress() + ", auto: " + autoConnect);
+                    "connect() - device: " + mDevice.getAddress() + ", auto: " + autoConnect + ", eattSupport: " + eattSupport);
         }
         synchronized (mStateLock) {
             if (mConnState != CONN_STATE_IDLE) {
@@ -872,7 +872,7 @@ public final class BluetoothGatt implements BluetoothProfile {
 
         mAutoConnect = autoConnect;
 
-        if (!registerApp(callback, handler)) {
+        if (!registerApp(callback, handler, eattSupport)) {
             synchronized (mStateLock) {
                 mConnState = CONN_STATE_IDLE;
             }

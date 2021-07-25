@@ -42,6 +42,8 @@ interface INfcAdapter
     INfcFCardEmulation getNfcFCardEmulationInterface();
     INfcAdapterExtras getNfcAdapterExtrasInterface(in String pkg);
     INfcDta getNfcDtaInterface(in String pkg);
+    IBinder getNfcAdapterVendorInterface(in String vendor);
+
     int getState();
     boolean disable(boolean saveState);
     boolean enable();
