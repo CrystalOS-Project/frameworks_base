@@ -17,60 +17,8 @@
     <java-symbol type="array" name="config_deviceKeyHandlerLibs" />
     <java-symbol type="array" name="config_deviceKeyHandlerClasses" />
 
-    <!-- Post reset runnable for all clients -->
-    <java-symbol type="bool" name="config_fingerprintPostResetRunnableForAllClients" />
-
     <!-- Whether to cleanup fingerprints upon connection to the daemon and when user switches -->
     <java-symbol type="bool" name="config_cleanupUnusedFingerprints" />
-
-    <!-- App error dialog -->
-    <java-symbol type="id" name="aerr_copy" />
-    <java-symbol type="string" name="url_copy_success" />
-    <java-symbol type="string" name="url_copy_failed" />
-
-    <!-- Whether to allow process with media UID to access CameraServiceProxy -->
-    <java-symbol type="bool" name="config_allowMediaUidForCameraServiceProxy" />
-
-    <!-- Whether device supports an alt. ambient display -->
-    <java-symbol type="bool" name="config_alt_ambient_display"/>
-
-    <!-- Device has OnePlus haptic motor -->
-    <java-symbol type="bool" name="config_hasOnePlusHapticMotor" />
-
-    <!-- Vendor mismatch fingerprint warning -->
-    <java-symbol type="string" name="system_error_vendorprint" />
-
-    <!-- Whether or not we should show vendor mismatch message -->
-    <java-symbol type="bool" name="config_show_vendor_mismatch_message" />
-
-    <!-- Whether device has dash charging support -->
-    <java-symbol type="bool" name="config_hasDashCharger" />
-
-    <!-- Whether device has VOOC charging support -->
-    <java-symbol type="bool" name="config_hasVoocCharger" />
-	
-    <!-- Vendor platform signatures -->
-    <java-symbol type="array" name="config_vendorPlatformSignatures" />
-
-    <!-- Private symbols that we need to reference from framework code.  See
-         frameworks/base/core/res/MakeJavaSymbols.sed for how to easily generate
-         this.
-
-         Can be referenced in java code as: com.android.internal.R.<type>.<name>
-         and in layout xml as: "@*android:<type>/<name>"
-    -->
-    <java-symbol type="array" name="config_customPermissionsList" />
-
-    <!-- Max visible notification icons -->
-    <java-symbol type="integer" name="config_maxVisibleNotificationIcons" />
-    <java-symbol type="integer" name="config_maxVisibleNotificationIconsOnLock" />
-
-    <!-- Light / Regular style fonts -->
-    <java-symbol type="string" name="config_lightFontFamily" />
-    <java-symbol type="string" name="config_regularFontFamily" />
-
-    <!-- Rotation sensor -->
-    <java-symbol type="bool" name="config_useSystemClockforRotationSensor" />
 
     <!-- Power menu -->
     <java-symbol type="array" name="config_rebootActionsList" />
