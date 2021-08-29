@@ -78,7 +78,6 @@ public abstract class BiometricServiceBase extends SystemService
 
     protected static final boolean DEBUG = true;
 
-    private static final boolean CLEANUP_UNKNOWN_TEMPLATES = true;
     private static final String KEY_LOCKOUT_RESET_USER = "lockout_reset_user";
     private static final int MSG_USER_SWITCHING = 10;
     private static final long CANCEL_TIMEOUT_LIMIT = 3000; // max wait for onCancel() from HAL,in ms
@@ -89,9 +88,11 @@ public abstract class BiometricServiceBase extends SystemService
     private final PowerManager mPowerManager;
     private final UserManager mUserManager;
     private final MetricsLogger mMetricsLogger;
+    private final boolean mPostResetRunnableForAllClients;
     private final BiometricTaskStackListener mTaskStackListener = new BiometricTaskStackListener();
     private final ResetClientStateRunnable mResetClientState = new ResetClientStateRunnable();
     private final ArrayList<LockoutResetMonitor> mLockoutMonitors = new ArrayList<>();
+    private final boolean mCleanupUnusedFingerprints;
 
     protected final IStatusBarService mStatusBarService;
     protected final Map<Integer, Long> mAuthenticatorIds =
@@ -284,10 +285,12 @@ public abstract class BiometricServiceBase extends SystemService
         @Override
         public int handleFailedAttempt() {
             final int lockoutMode = getLockoutMode();
-            if (lockoutMode == AuthenticationClient.LOCKOUT_PERMANENT) {
-                mPerformanceStats.permanentLockout++;
-            } else if (lockoutMode == AuthenticationClient.LOCKOUT_TIMED) {
-                mPerformanceStats.lockout++;
+            if (mPerformanceStats != null) {
+                if (lockoutMode == AuthenticationClient.LOCKOUT_PERMANENT) {
+                    mPerformanceStats.permanentLockout++;
+                } else if (lockoutMode == AuthenticationClient.LOCKOUT_TIMED) {
+                    mPerformanceStats.lockout++;
+                }
             }
 
             // Failing multiple times will continue to push out the lockout time
@@ -660,6 +663,13 @@ public abstract class BiometricServiceBase extends SystemService
         mPowerManager = mContext.getSystemService(PowerManager.class);
         mUserManager = UserManager.get(mContext);
         mMetricsLogger = new MetricsLogger();
+        mCleanupUnusedFingerprints = statsModality() == BiometricsProtoEnums.MODALITY_FINGERPRINT &&
+                mContext.getResources().getBoolean(
+                com.android.internal.R.bool.config_cleanupUnusedFingerprints);
+        mPostResetRunnableForAllClients =
+                statsModality() == BiometricsProtoEnums.MODALITY_FINGERPRINT &&
+                mContext.getResources().getBoolean(
+                com.android.internal.R.bool.config_fingerprintPostResetRunnableForAllClients);
     }
 
     @Override
@@ -710,7 +720,7 @@ public abstract class BiometricServiceBase extends SystemService
      * Callback handlers from the daemon. The caller must put this on a handler.
      */
 
-    protected void handleAcquired(long deviceId, int acquiredInfo, int vendorCode) {
+    public void handleAcquired(long deviceId, int acquiredInfo, int vendorCode) {
         ClientMonitor client = mCurrentClient;
         if (client != null && client.onAcquired(acquiredInfo, vendorCode)) {
             removeClient(client);
@@ -722,21 +732,23 @@ public abstract class BiometricServiceBase extends SystemService
         }
     }
 
-    protected void handleAuthenticated(boolean authenticated,
+    public void handleAuthenticated(boolean authenticated,
             BiometricAuthenticator.Identifier identifier, ArrayList<Byte> token) {
         ClientMonitor client = mCurrentClient;
 
         if (client != null && client.onAuthenticated(identifier, authenticated, token)) {
             removeClient(client);
         }
-        if (authenticated) {
-            mPerformanceStats.accept++;
-        } else {
-            mPerformanceStats.reject++;
+        if (mPerformanceStats != null) {
+            if (authenticated) {
+                mPerformanceStats.accept++;
+            } else {
+                mPerformanceStats.reject++;
+            }
         }
     }
 
-    protected void handleEnrollResult(BiometricAuthenticator.Identifier identifier,
+    public void handleEnrollResult(BiometricAuthenticator.Identifier identifier,
             int remaining) {
         ClientMonitor client = mCurrentClient;
         if (client != null && client.onEnrollResult(identifier, remaining)) {
@@ -749,7 +761,7 @@ public abstract class BiometricServiceBase extends SystemService
         }
     }
 
-    protected void handleError(long deviceId, int error, int vendorCode) {
+    public void handleError(long deviceId, int error, int vendorCode) {
         final ClientMonitor client = mCurrentClient;
 
         if (DEBUG) Slog.v(getTag(), "handleError(client="
@@ -775,7 +787,7 @@ public abstract class BiometricServiceBase extends SystemService
         }
     }
 
-    protected void handleRemoved(BiometricAuthenticator.Identifier identifier,
+    public void handleRemoved(BiometricAuthenticator.Identifier identifier,
             final int remaining) {
         if (DEBUG) Slog.w(getTag(), "Removed: fid=" + identifier.getBiometricId()
                 + ", dev=" + identifier.getDeviceId()
@@ -801,7 +813,7 @@ public abstract class BiometricServiceBase extends SystemService
         }
     }
 
-    protected void handleEnumerate(BiometricAuthenticator.Identifier identifier, int remaining) {
+    public void handleEnumerate(BiometricAuthenticator.Identifier identifier, int remaining) {
         ClientMonitor client = mCurrentClient;
         if (client != null) {
             client.onEnumerationResult(identifier, remaining);
@@ -1037,7 +1049,7 @@ public abstract class BiometricServiceBase extends SystemService
     /**
      * @return true if this is keyguard package
      */
-    private boolean isKeyguard(String clientPackage) {
+    protected boolean isKeyguard(String clientPackage) {
         return mKeyguardPackage.equals(clientPackage);
     }
 
@@ -1067,6 +1079,10 @@ public abstract class BiometricServiceBase extends SystemService
                             + newClient.getClass().getSuperclass().getSimpleName()
                             + "(" + newClient.getOwnerString() + ")"
                             + ", initiatedByClient = " + initiatedByClient);
+                }
+                if (mPostResetRunnableForAllClients) {
+                    mHandler.removeCallbacks(mResetClientState);
+                    mHandler.postDelayed(mResetClientState, CANCEL_TIMEOUT_LIMIT);
                 }
             } else {
                 currentClient.stop(initiatedByClient);
@@ -1156,7 +1172,7 @@ public abstract class BiometricServiceBase extends SystemService
     /**
      * Populates existing authenticator ids. To be used only during the start of the service.
      */
-    protected void loadAuthenticatorIds() {
+    public void loadAuthenticatorIds() {
         // This operation can be expensive, so keep track of the elapsed time. Might need to move to
         // background if it takes too long.
         long t = System.currentTimeMillis();
@@ -1235,8 +1251,8 @@ public abstract class BiometricServiceBase extends SystemService
      * This method should be called upon connection to the daemon, and when user switches.
      * @param userId
      */
-    protected void doTemplateCleanupForUser(int userId) {
-        if (CLEANUP_UNKNOWN_TEMPLATES) {
+    public void doTemplateCleanupForUser(int userId) {
+        if (mCleanupUnusedFingerprints) {
             enumerateUser(userId);
         }
     }
@@ -1299,7 +1315,7 @@ public abstract class BiometricServiceBase extends SystemService
         doTemplateCleanupForUser(userId);
     }
 
-    protected void notifyLockoutResetMonitors() {
+    public void notifyLockoutResetMonitors() {
         for (int i = 0; i < mLockoutMonitors.size(); i++) {
             mLockoutMonitors.get(i).sendLockoutReset();
         }
