@@ -1177,6 +1177,44 @@ public class Instrumentation {
         return app;
     }
 
+    private static void setBuildField(String packageName, String key, String value) {
+        /*
+         * This would be much prettier if we just removed "final" from the Build fields,
+         * but that requires changing the API.
+         *
+         * While this an awful hack, it's technically safe because the fields are
+         * populated at runtime.
+         */
+        try {
+            // Unlock
+            Field field = Build.class.getDeclaredField(key);
+            field.setAccessible(true);
+
+            // Edit
+            field.set(null, value);
+
+            // Lock
+            field.setAccessible(false);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            Log.e(TAG, "Failed to spoof Build." + key + " for " + packageName, e);
+        }
+    }
+
+    private static void maybeSpoofBuild(Application app) {
+        /**
+         * Set fingerprint to make SafetyNet pass
+         * Use walleye oreo fingerprint which passes safetynet and
+         * doesn't require updating every month
+        */
+        String snetFp = "google/walleye/walleye:8.1.0/OPM1.171019.011/4448085:user/release-keys";
+        String packageName = app.getPackageName();
+
+        if ("com.google.android.gms".equals(packageName)) {
+            setBuildField(packageName, "FINGERPRINT", snetFp);
+            setBuildField(packageName, "MODEL", Build.MODEL + "\u200b");
+        }
+    }
+
     /**
      * Perform calling of the application's {@link Application#onCreate}
      * method.  The default implementation simply calls through to that method.
