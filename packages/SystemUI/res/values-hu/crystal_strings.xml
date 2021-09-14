@@ -99,4 +99,11 @@
     <string name="accessibility_quick_settings_heads_up_off">Heads up kikapcsolva.</string>
     <string name="accessibility_quick_settings_heads_up_on">Heads up bekapcsolva.</string>
 
+    <!-- Refresh Rate Tile -->
+    <string name="refresh_rate_tile_label">Képernyő-frissítési ráta</string>
+    <string name="refresh_rate_auto_mode_placeholder">
+        Automatikus (<xliff:g id="min_refresh_rate" example="60">%1$d</xliff:g> - <xliff:g id="max_refresh_rate" example="60">%2$d</xliff:g> Hz)
+    </string>
+    <string name="refresh_rate_forced_mode_placeholder"><xliff:g id="refresh_rate" example="60">%1$d</xliff:g> Hz</string>
+
 </resources>
