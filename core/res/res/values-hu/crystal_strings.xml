@@ -13,4 +13,16 @@
     <string name="settings_restart_title">A Beállítások újraindítása szükséges</string>
     <string name="settings_restart_message">A változások alkalmazásához újra kell indítani a Beállításokat. Újraindítja most?</string>
 
+    <!-- Title of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
+    <string name="permlab_fakePackageSignature">Csomag aláírás hamisítás</string>
+    <!-- Description of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
+    <string name="permdesc_fakePackageSignature">Engedélyezi az alkalmazásnak hogy másik alkalmazásnak adja ki magát. A kártékony alkalmazások ezt kihasználhatják hogy hozzáférjenek privát alkalmazás adatokhoz. A valódi felhasználásai közé tartozik hogy egy emulátor kiadhassa magát annak, amit emulál. Ezt az engedélyt csak körültekintően adja meg!</string>
+    <!-- Title of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
+    <string name="permgrouplab_fake_package_signature">Csomag aláírás hamisítás</string>
+    <!-- Description of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
+    <string name="permgroupdesc_fake_package_signature">engedélyezi az alkalmazásnak hogy csomag aláírást hamisítson</string>
+    <!-- Message shown to the user when the apps requests permission from this group. If ever possible this should stay below 80 characters (assuming the parameters takes 20 characters). Don't abbreviate until the message reaches 120 characters though. [CHAR LIMIT=120] -->
+    <string name="permgrouprequest_fake_package_signature">Engedélyezi a
+        &lt;b><xliff:g id="app_name" example="Gmail">%1$s</xliff:g>&lt;/b>-nak/nek hogy hamisítsa a csomag aláírást?</string>
+
 </resources>
