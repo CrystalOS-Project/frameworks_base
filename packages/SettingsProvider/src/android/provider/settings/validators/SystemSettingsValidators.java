@@ -214,5 +214,6 @@ public class SystemSettingsValidators {
         VALIDATORS.put(System.HIGH_TOUCH_SENSITIVITY_ENABLE, BOOLEAN_VALIDATOR);
         VALIDATORS.put(System.ENABLE_RIPPLE_EFFECT, BOOLEAN_VALIDATOR);
         VALIDATORS.put(System.FORCE_FULLSCREEN_CUTOUT_APPS, ANY_STRING_VALIDATOR);
+        VALIDATORS.put(System.TORCH_POWER_BUTTON_GESTURE, new InclusiveIntegerRangeValidator(0, 2));
     }
 }
