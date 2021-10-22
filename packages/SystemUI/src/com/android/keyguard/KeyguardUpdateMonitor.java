@@ -1292,8 +1292,9 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener, Dumpab
     }
 
     public boolean isUnlockingWithBiometricAllowed(boolean isStrongBiometric) {
-        return mStrongAuthTracker.isUnlockingWithBiometricAllowed(isStrongBiometric);
-    }
+        return mStrongAuthTracker.isUnlockingWithBiometricAllowed(isStrongBiometric)
+                || (Settings.System.getInt(mContext.getContentResolver(),
+                   Settings.System.FP_UNLOCK_KEYSTORE, 0) == 1);    }
 
     public boolean isUserInLockdown(int userId) {
         return containsFlag(mStrongAuthTracker.getStrongAuthForUser(userId),
