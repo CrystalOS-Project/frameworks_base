@@ -27,9 +27,13 @@
 
     <!-- Advanced reboot -->
     <string name="reboot_to_recovery_title" translatable="false">Recovery</string>
-    <string name="reboot_to_recovery_message" translatable="false">Újraindítás Recovery módban</string>
+    <string name="reboot_to_recovery_message">Újraindítás Recovery módban</string>
     <string name="reboot_to_bootloader_title" translatable="false">Bootloader</string>
-    <string name="reboot_to_bootloader_message" translatable="false">Újraindítás Bootloader módban</string>
+    <string name="reboot_to_bootloader_message">Újraindítás Bootloader módban</string>
+    <string name="reboot_to_fastboot_title" translatable="false">Fastboot</string>
+    <string name="reboot_to_fastboot_message">Újraindítás Fastboot módban</string>
+    <string name="reboot_to_fastbootd_title" translatable="false">FastbootD</string>
+    <string name="reboot_to_fastbootd_message">Újraindítás FastbootD módban</string>
     <string name="reboot_title">Újraindítás</string>
     <string name="reboot_message">Rendszer újraindítása</string>
 
