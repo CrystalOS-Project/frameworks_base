@@ -822,6 +822,10 @@
     <!-- Scarlet Services -->
     <protected-broadcast android:name="android.intent.action.SCARLET_SERVICES" />  
 
+    <!-- GameSpace -->
+    <protected-broadcast android:name="io.chaldeaprjkt.gamespace.action.GAME_START" />
+    <protected-broadcast android:name="io.chaldeaprjkt.gamespace.action.GAME_STOP" />
+
     <!-- ====================================================================== -->
     <!--                          RUNTIME PERMISSIONS                           -->
     <!-- ====================================================================== -->

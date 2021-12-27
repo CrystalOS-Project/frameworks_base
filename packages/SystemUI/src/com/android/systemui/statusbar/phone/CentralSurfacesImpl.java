@@ -233,6 +233,7 @@ import com.android.systemui.statusbar.policy.DeviceProvisionedController;
 import com.android.systemui.statusbar.policy.DeviceProvisionedController.DeviceProvisionedListener;
 import com.android.systemui.statusbar.policy.ExtensionController;
 import com.android.systemui.statusbar.policy.FlashlightController;
+import com.android.systemui.statusbar.policy.GameSpaceManager;
 import com.android.systemui.statusbar.policy.KeyguardStateController;
 import com.android.systemui.statusbar.policy.TaskHelper;
 import com.android.systemui.statusbar.policy.UserInfoControllerImpl;
@@ -516,6 +517,8 @@ public class CentralSurfacesImpl extends CoreStartable implements
     private final StatusBarHideIconsForBouncerManager mStatusBarHideIconsForBouncerManager;
 
     protected TaskHelper mTaskHelper;
+
+    protected GameSpaceManager mGameSpaceManager;
 
     // expanded notifications
     // the sliding/resizing panel within the notification window
@@ -895,6 +898,7 @@ public class CentralSurfacesImpl extends CoreStartable implements
 
         mActivityIntentHelper = new ActivityIntentHelper(mContext);
         mActivityLaunchAnimator = activityLaunchAnimator;
+        mGameSpaceManager = new GameSpaceManager(mContext, mKeyguardStateController);
 
         // The status bar background may need updating when the ongoing call status changes.
         mOngoingCallController.addCallback((animate) -> maybeUpdateBarMode());
@@ -1449,6 +1453,7 @@ public class CentralSurfacesImpl extends CoreStartable implements
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_SCREEN_CAMERA_GESTURE);
         mBroadcastDispatcher.registerReceiver(mBroadcastReceiver, filter, null, UserHandle.ALL);
+        mGameSpaceManager.observe();
     }
 
     protected QS createDefaultQSFragment() {
@@ -4390,6 +4395,11 @@ public class CentralSurfacesImpl extends CoreStartable implements
     @Override
     public NotificationGutsManager getGutsManager() {
         return mGutsManager;
+    }
+
+    @Override
+    public GameSpaceManager getGameSpaceManager() {
+        return mGameSpaceManager;
     }
 
     boolean isTransientShown() {
