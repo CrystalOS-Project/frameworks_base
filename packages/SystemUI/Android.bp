@@ -124,6 +124,8 @@ android_library {
         "lottie",
         "colorkt",
         "themelib",
+        "android.hardware.power.stats-V1-java",
+        "android.hardware.power-V3-java",
     ],
     manifest: "AndroidManifest.xml",
 
@@ -238,6 +240,8 @@ android_library {
         "dagger2",
         "jsr330",
         "WindowManager-Shell",
+        "android.hardware.power.stats-V1-java",
+        "android.hardware.power-V3-java",
     ],
     libs: [
         "android.test.runner",

@@ -6043,6 +6043,13 @@ public final class Settings {
         public static final String THREE_FINGER_GESTURE = "three_finger_gesture";
 
         /**
+         * Scarlet Idle Assistant Manager
+         * @hide
+         */
+        @Readable
+        public static final String SCARLET_IDLE_ASSISTANT_MANAGER = "scarlet_idle_assistant_manager";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *

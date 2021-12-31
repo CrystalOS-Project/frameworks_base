@@ -91,4 +91,7 @@
     <!-- Sleep Mode -->
     <string name="quick_settings_sleep_mode_label">Lefekvés Mód</string>
 
+    <!-- Scarlet -->
+    <string name="scarlet_wake_screen">A képernyő felkelt, Scarlet szolgáltatás leállítása</string>
+
 </resources>
