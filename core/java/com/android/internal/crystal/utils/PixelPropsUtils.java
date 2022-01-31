@@ -186,11 +186,8 @@ public class PixelPropsUtils {
                 || packageName.startsWith(SAMSUNG)
                 || Arrays.asList(extraPackagesToChange).contains(packageName)) {
             if (packageName.equals("com.google.android.apps.photos")) {
-                if (SystemProperties.getBoolean("persist.sys.pixelprops.gphotos", true)) {
-                    propsToChange.putAll(propsToChangePixelXL);
-                } else {
-                    propsToChange.putAll(propsToChangePixel5);
-                }
+                if (!SystemProperties.getBoolean("persist.sys.pixelprops.gphotos", true))
+                    return;
             } else {
                 if ((Arrays.asList(packagesToChangePixel7Pro).contains(packageName))
                         || packageName.startsWith(SAMSUNG)
