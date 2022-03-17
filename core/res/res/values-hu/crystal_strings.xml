@@ -9,4 +9,8 @@
     <string name="systemui_restart_title">A RendszerUI újraindítása szükséges</string>
     <string name="systemui_restart_message">A változások alkalmazásához újra kell indítani a RendszerUI-t. Újraindítja most?</string>
 
+    <!-- Settings Restart -->
+    <string name="settings_restart_title">A Beállítások újraindítása szükséges</string>
+    <string name="settings_restart_message">A változások alkalmazásához újra kell indítani a Beállításokat. Újraindítja most?</string>
+
 </resources>

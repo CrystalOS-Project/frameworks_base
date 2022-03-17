@@ -5507,7 +5507,14 @@ public final class Settings {
          */
         public static final String LESS_BORING_HEADS_UP = "less_boring_heads_up";
 		
-		/**
+	/**
+         * Settings Dashboard Style
+         * @hide
+         */
+        public static final String SETTINGS_DASHBOARD_GMS = "settings_dashboard_gms";
+
+
+        /**
          * Whether the phone vibrates on call connect
          * @hide
          */
