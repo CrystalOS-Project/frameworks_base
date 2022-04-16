@@ -472,17 +472,9 @@ final class DefaultPermissionGrantPolicy {
                     || ArrayUtils.isEmpty(pkg.requestedPermissions)
                     || !pm.isGranted(Manifest.permission.READ_PRIVILEGED_PHONE_STATE,
                             pkg, UserHandle.of(userId))
-                    || !pm.isGranted(Manifest.permission.READ_PHONE_STATE,
-                            pkg, UserHandle.of(userId))
                     || pm.isSysComponentOrPersistentPlatformSignedPrivApp(pkg)) {
                 continue;
             }
-
-            pm.updatePermissionFlags(Manifest.permission.READ_PHONE_STATE, pkg,
-                    PackageManager.FLAG_PERMISSION_SYSTEM_FIXED,
-                    0,
-                    UserHandle.of(userId));
-
             grantRuntimePermissions(pm, pkg,
                     Collections.singleton(Manifest.permission.READ_PHONE_STATE),
                     true, // systemFixed
@@ -1891,7 +1883,7 @@ final class DefaultPermissionGrantPolicy {
                 int flagMask, int flagValues, @NonNull UserHandle user) {
             PermissionState state = getPermissionState(permission, pkg, user);
             state.initFlags();
-            state.newFlags = (state.newFlags & ~flagMask) | (flagValues & flagMask);
+            state.newFlags |= flagValues & flagMask;
         }
 
         @Override
