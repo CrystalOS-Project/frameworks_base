@@ -11,11 +11,14 @@
      limitations under the License.
 -->
 <resources>
-	
+
 	<!-- Whether device has dash charging support -->
     <bool name="config_hasDashCharger">false</bool>
 
     <!-- Whether device has warp charging support -->
     <bool name="config_hasWarpCharger">false</bool>
+
+    <!-- Paths to OP warp charging status file -->
+    <string name="config_opWarpChargerStatusPaths" translatable="false"></string>
 
 </resources>
