@@ -5550,7 +5550,7 @@ public final class Settings {
          * @hide
          */
         public static final String NOTIFICATION_SOUND_VIB_SCREEN_ON = "notification_sound_vib_screen_on";
-		
+
 	/**
          * Whether to show heads up only for dialer and sms apps
          * @hide
@@ -5604,8 +5604,8 @@ public final class Settings {
          * @hide
          */
         public static final String VOLBTN_MUSIC_CONTROLS = "volbtn_music_controls";
-		
-		/**
+
+	/**
          * Whether to allow one finger quick settings expansion on the side of the statusbar.
          * 0 = 0ff, 1 = right, 2 = left, 3 = both
          * @hide
@@ -5628,19 +5628,19 @@ public final class Settings {
          * @hide
          */
         public static final String ROAMING_INDICATOR_ICON = "roaming_indicator_icon";
-		
+
 	/**
          * Enable statusbar double tap gesture to put device to sleep
          * @hide
          */
         public static final String DOUBLE_TAP_SLEEP_GESTURE = "double_tap_sleep_gesture";
-		
+
 	/**
          * Double tap on lockscreen to sleep
          * @hide
          */
         public static final String DOUBLE_TAP_SLEEP_LOCKSCREEN = "double_tap_sleep_lockscreen";
-		
+
 	/**
          * Use doubletap as doze pulse triggers
          * @hide
@@ -5652,13 +5652,21 @@ public final class Settings {
          * @hide
          */
         public static final String HIDE_LOCKSCREEN_STATUS_BAR = "hide_lockscreen_status_bar";
-		
+
 	/**
          * Whether to show the battery info on the lockscreen while charging
          * @hide
          */
         public static final String LOCKSCREEN_BATTERY_INFO = "lockscreen_battery_info";
-		
+
+        /**
+         * Whether to show Fahrenheit or Celsius with battery info on the
+         * lockscreen while charging
+         *
+         * @hide
+         */
+        public static final String LOCKSCREEN_BATTERY_INFO_TEMP_UNIT = "lockscreen_charge_temp_unit";
+
 	/**
          * Whether to show the kill app button in notification guts
          * @hide
