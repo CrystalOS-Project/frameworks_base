@@ -1321,7 +1321,7 @@ public class PackageManagerServiceUtils {
         // identify cached items. In particular, changing the value of certain
         // feature flags should cause us to invalidate any caches.
         final String cacheName = FORCE_PACKAGE_PARSED_CACHE_ENABLED ? "debug"
-                : PackagePartitions.FINGERPRINT;
+                : SystemProperties.digestOf(String.valueOf(Build.TIME));
 
         // Reconcile cache directories, keeping only what we'd actually use.
         for (File cacheDir : FileUtils.listFilesOrEmpty(cacheBaseDir)) {
@@ -1358,6 +1358,7 @@ public class PackageManagerServiceUtils {
             File frameworkDir =
                     new File(Environment.getRootDirectory(), "framework");
             if (cacheDir.lastModified() < frameworkDir.lastModified()) {
+                Slog.w(TAG, "Wiping cache directory because the system partition changed.");
                 FileUtils.deleteContents(cacheBaseDir);
                 cacheDir = FileUtils.createDir(cacheBaseDir, cacheName);
             }
