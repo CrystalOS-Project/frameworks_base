@@ -8,6 +8,7 @@
     <!-- Additional gesture navbar lengths -->
     <dimen name="navigation_home_handle_width_medium">110dp</dimen>
     <dimen name="navigation_home_handle_width_long">140dp</dimen>
+    <dimen name="navigation_home_handle_width_very_long">170dp</dimen>
 
     <!-- Burn-in protection -->
     <dimen name="horizontal_max_shift">3.0dp</dimen>
@@ -46,4 +47,5 @@
     <dimen name="right_tri_state_up_bottom_right_radius">0.0dip</dimen>
     <dimen name="right_tri_state_up_top_left_radius">24.0dip</dimen>
     <dimen name="right_tri_state_up_top_right_radius">24.0dip</dimen>
+
 </resources>
