@@ -6579,21 +6579,6 @@
     <attribution android:tag="DevicePolicyManagerService"
         android:label="@string/device_policy_manager_service"/>
 
-    <!-- LineageOS additions -->
-
-    <!-- Allows an application to override the power key action
-         @hide <p>Not for use by third-party applications.
-    -->
-    <permission android:name="android.permission.PREVENT_POWER_KEY"
-                android:protectionLevel="signature|privileged" />
-
-    <!-- LineageHardware -->
-    <protected-broadcast android:name="lineageos.intent.action.INITIALIZE_LINEAGE_HARDWARE" />
-
-    <!-- @hide -->
-    <permission android:name="lineageos.permission.HARDWARE_ABSTRACTION_ACCESS"
-                android:protectionLevel="signature|privileged" />
-
     <!-- Allows an application to override the power key action
          @hide <p>Not for use by third-party applications. -->
     <permission android:name="android.permission.PREVENT_POWER_KEY"
@@ -6612,6 +6597,7 @@
                  android:defaultToDeviceProtectedStorage="true"
                  android:forceQueryable="true"
                  android:directBootAware="true">
+
         <activity android:name="com.android.internal.app.ChooserActivity"
                 android:theme="@style/Theme.DeviceDefault.Chooser"
                 android:finishOnCloseSystemDialogs="true"
@@ -6622,12 +6608,16 @@
                 android:process=":ui"
                 android:exported="true"
                 android:visibleToInstantApps="true">
+
             <intent-filter android:priority="100">
                 <action android:name="android.intent.action.CHOOSER" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.VOICE" />
+
             </intent-filter>
+
         </activity>
+
         <activity android:name="com.android.internal.accessibility.dialog.AccessibilityShortcutChooserActivity"
                   android:exported="false"
                   android:theme="@style/Theme.DeviceDefault.Dialog.Alert.DayNight"
@@ -6637,11 +6627,14 @@
                   android:relinquishTaskIdentity="true"
                   android:process=":ui"
                   android:visibleToInstantApps="true">
+
             <intent-filter>
                 <action android:name="com.android.internal.intent.action.CHOOSE_ACCESSIBILITY_BUTTON" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+
         </activity>
+
         <activity android:name="com.android.internal.accessibility.dialog.AccessibilityButtonChooserActivity"
                   android:exported="false"
                   android:theme="@style/Theme.DeviceDefault.Resolver"
@@ -6652,11 +6645,14 @@
                   android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation|keyboard|keyboardHidden"
                   android:process=":ui"
                   android:visibleToInstantApps="true">
+
             <intent-filter>
                 <action android:name="com.android.internal.intent.action.CHOOSE_ACCESSIBILITY_BUTTON" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+
         </activity>
+
         <activity android:name="com.android.internal.app.IntentForwarderActivity"
                 android:finishOnCloseSystemDialogs="true"
                 android:theme="@style/Theme.Translucent.NoTitleBar"
@@ -6666,17 +6662,20 @@
                 android:visibleToInstantApps="true"
                 >
         </activity>
+
         <activity-alias android:name="com.android.internal.app.ForwardIntentToParent"
                 android:targetActivity="com.android.internal.app.IntentForwarderActivity"
                 android:exported="true"
                 android:label="@string/user_owner_label">
         </activity-alias>
+
         <activity-alias android:name="com.android.internal.app.ForwardIntentToManagedProfile"
                 android:targetActivity="com.android.internal.app.IntentForwarderActivity"
                 android:icon="@drawable/ic_corp_badge"
                 android:exported="true"
                 android:label="@string/managed_profile_label">
         </activity-alias>
+
         <activity android:name="com.android.internal.app.HeavyWeightSwitcherActivity"
                 android:theme="@style/Theme.DeviceDefault.System.Dialog.Alert"
                 android:label="@string/heavy_weight_switcher_title"
@@ -6684,12 +6683,14 @@
                 android:excludeFromRecents="true"
                 android:process=":ui">
         </activity>
+
         <activity android:name="com.android.internal.app.PlatLogoActivity"
                 android:theme="@style/Theme.Wallpaper.NoTitleBar.Fullscreen"
                 android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
                 android:icon="@drawable/platlogo"
                 android:process=":ui">
         </activity>
+
         <activity android:name="com.android.internal.app.DisableCarModeActivity"
                 android:theme="@style/Theme.NoDisplay"
                 android:excludeFromRecents="true"

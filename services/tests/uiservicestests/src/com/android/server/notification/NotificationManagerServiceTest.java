@@ -7623,10 +7623,6 @@ public class NotificationManagerServiceTest extends UiServiceTestCase {
     }
 
     @Test
-<<<<<<< HEAD
-    public void testAddAutomaticZenRule_nonSystemCallTakesPackageFromArg() throws Exception {
-        mService.isSystemUid = false;
-=======
     public void testAddAutomaticZenRule_systemAppIdCallTakesPackageFromOwner() throws Exception {
         // The multi-user case: where the calling uid doesn't match the system uid, but the calling
         // *appid* is the system.
@@ -7651,7 +7647,6 @@ public class NotificationManagerServiceTest extends UiServiceTestCase {
     public void testAddAutomaticZenRule_nonSystemCallTakesPackageFromArg() throws Exception {
         mService.isSystemUid = false;
         mService.isSystemAppId = false;
->>>>>>> android-13.0.0_r30
         ZenModeHelper mockZenModeHelper = mock(ZenModeHelper.class);
         when(mConditionProviders.isPackageOrComponentAllowed(anyString(), anyInt()))
                 .thenReturn(true);
