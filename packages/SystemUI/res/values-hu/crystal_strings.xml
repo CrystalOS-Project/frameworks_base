@@ -42,4 +42,8 @@
     <string name="keyguard_indication_oem_power_time"><xliff:g id="percentage">%2$s</xliff:g> • Gyors töltés (<xliff:g id="charging_time_left" example="4 hours and 2 minutes">%1$s</xliff:g> a teljes feltöltésig)</string>
     <string name="keyguard_plugged_in_oem_charging"><xliff:g id="percentage">%s</xliff:g> • Gyors töltés</string>
 
+    <!-- Kill button in notification guts -->
+    <string name="force_stop_dlg_title">Leállítsuk ezt az alkalmazást kényszerítetten?</string>
+    <string name="force_stop_dlg_text">Ha kényszerítetten leállít egy alkalmazást, az hibásan működhet.</string>
+
 </resources>
