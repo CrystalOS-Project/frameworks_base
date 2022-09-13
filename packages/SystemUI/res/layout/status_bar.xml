@@ -92,6 +92,9 @@
                     android:orientation="horizontal"
                     android:clipChildren="false"/>
 
+                <include layout="@layout/ongoing_call_chip"
+                   android:visibility="gone" />
+
             </LinearLayout>
         </FrameLayout>
 
