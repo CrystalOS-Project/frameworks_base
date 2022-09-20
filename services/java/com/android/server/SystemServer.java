@@ -2613,11 +2613,6 @@ public final class SystemServer implements Dumpable {
         mSystemServiceManager.startService(SDK_SANDBOX_MANAGER_SERVICE_CLASS);
         t.traceEnd();
 
-        // AdServicesManagerService (PP API service)
-        t.traceBegin("StartAdServicesManagerService");
-        mSystemServiceManager.startService(AD_SERVICES_MANAGER_SERVICE_CLASS);
-        t.traceEnd();
-
         if (safeMode) {
             mActivityManagerService.enterSafeMode();
         }
