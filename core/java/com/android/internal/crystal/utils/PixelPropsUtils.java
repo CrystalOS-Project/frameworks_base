@@ -80,6 +80,7 @@ public class PixelPropsUtils {
             "com.google.android.apps.cameralite",
             "com.google.android.apps.recorder",
             "com.google.android.apps.wearables.maestro.companion",
+            "com.google.android.euicc",
             "com.google.android.apps.youtube.kids",
             "com.google.android.apps.youtube.music",
             "com.google.android.dialer",
