@@ -181,7 +181,8 @@ public class PixelPropsUtils {
     }
 
     public static void setProps(String packageName) {
-        if (packageName == null || (Arrays.asList(packagesToKeep).contains(packageName)) || isPixelDevice) {
+        if (packageName == null || (Arrays.asList(packagesToKeep).contains(packageName))
+                                || packageName.isEmpty() || isPixelDevice) {
             return;
         }
         if (packageName.startsWith("com.google.")
