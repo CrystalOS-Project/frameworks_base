@@ -44,4 +44,9 @@
     <string name="sleep_mode_enabled_toast">Lefekvés mód bekapcsolva</string>
     <string name="sleep_mode_disabled_toast">Lefekvés mód kikapcsolva</string>
 
+    <!-- Scarlet Services -->
+    <string name="notification_channel_scarlet">Scarlet Szolgáltatás</string>
+    <string name="scarlet_notification_title">A Scarlet Készenlét Szolgáltatás aktív</string>
+    <string name="scarlet_aggressive_mode">A Scarlet szolgáltatás nagyléptékben optimalizálja az eszköz energiafogyasztását amíg az tétlen...</string>
+
 </resources>
