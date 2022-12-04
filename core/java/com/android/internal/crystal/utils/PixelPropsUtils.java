@@ -63,6 +63,13 @@ public class PixelPropsUtils {
             "com.nhs.online.nhsonline"
     };
 
+	private static final String[] streamingPackagesToChange = {
+            "com.amazon.avod.thirdpartyclient",
+            "com.disney.disneyplus",
+            "com.netflix.mediaclient",
+            "in.startv.hotstar"
+    };
+
     private static final String[] packagesToKeep = {
             PACKAGE_FINSKY,
             PACKAGE_GMS,
@@ -185,6 +192,9 @@ public class PixelPropsUtils {
         if (packageName.startsWith("com.google.")
                 || packageName.startsWith(SAMSUNG)
                 || Arrays.asList(extraPackagesToChange).contains(packageName)) {
+				final String streamPropSpoof = SystemProperties.get("persist.sys.stream", "1");
+                boolean dontSpoofStream = ("0".equals(streamPropSpoof)) ? true : false;
+                if (dontSpoofStream && Arrays.asList(streamingPackagesToChange).contains(packageName)) return;
             if (packageName.equals("com.google.android.apps.photos")) {
                 if (!SystemProperties.getBoolean("persist.sys.pixelprops.gphotos", true))
                     return;

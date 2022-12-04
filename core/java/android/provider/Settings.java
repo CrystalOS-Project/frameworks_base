@@ -6026,7 +6026,7 @@ public final class Settings {
          */
         public static final String PIXEL_NAV_ANIMATION = "pixel_nav_animation";
 		
-	/**
+		/**
          * Whether the torch launch gesture to double tap or long press the power button when the
          * screen is off should be enabled. *
          * 0: disabled
@@ -6048,6 +6048,18 @@ public final class Settings {
          */
         @Readable
         public static final String SCARLET_IDLE_ASSISTANT_MANAGER = "scarlet_idle_assistant_manager";
+
+        /**
+         * Whether to enable Photos unlimited storage
+         * @hide
+         */
+        public static final String USE_PHOTOS_SPOOF = "use_photos_spoof";
+
+		/**
+         * Whether to enable spoofing for streaming apps
+         * @hide
+         */
+        public static final String USE_STREAM_SPOOF = "use_stream_spoof";
 
         /**
          * Keys we no longer back up under the current schema, but want to continue to
