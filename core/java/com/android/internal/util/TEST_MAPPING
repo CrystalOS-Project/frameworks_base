@@ -1,20 +1,22 @@
 {
   "presubmit": [
     {
-      "name": "ScreenshotHelperTests",
-      "file_patterns": ["ScreenshotHelper"]
+      "name": "ScreenshotHelperTests"
     },
     {
       "name": "FrameworksCoreTests",
       "options": [
         {
-          "include-filter": "android.util.XmlTest"
+          "include-filter": "com.android.internal.util.LatencyTrackerTest"
         },
         {
-          "include-filter": "android.util.BinaryXmlTest"
+          "exclude-annotation": "androidx.test.filters.FlakyTest"
+        },
+        {
+          "exclude-annotation": "org.junit.Ignore"
         }
       ],
-      "file_patterns": ["Xml"]
+      "file_patterns": ["LatencyTracker.java"]
     }
   ]
 }

@@ -172,7 +172,6 @@ public class TaskHelper implements CommandQueue.Callbacks, KeyguardStateControll
         mRecentsComponentName = ComponentName.unflattenFromString(context.getString(
                 com.android.internal.R.string.config_recentsComponentName));
         context.registerReceiver(mDefaultHomeBroadcastReceiver, homeFilter);
-        ActivityManagerWrapper.getInstance().registerTaskStackListener(mTaskStackChangeListener);
         Dependency.get(CommandQueue.class).addCallback(this);
         mKeyguardStateController = Dependency.get(KeyguardStateController.class);
         mKeyguardStateController.addCallback(this);

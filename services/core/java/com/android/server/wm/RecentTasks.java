@@ -28,7 +28,6 @@ import static android.app.WindowConfiguration.ACTIVITY_TYPE_UNDEFINED;
 import static android.app.WindowConfiguration.WINDOWING_MODE_FULLSCREEN;
 import static android.app.WindowConfiguration.WINDOWING_MODE_MULTI_WINDOW;
 import static android.app.WindowConfiguration.WINDOWING_MODE_PINNED;
-import static android.app.WindowConfiguration.WINDOWING_MODE_SPLIT_SCREEN_SECONDARY;
 import static android.app.WindowConfiguration.WINDOWING_MODE_UNDEFINED;
 import static android.content.Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS;
 import static android.content.Intent.FLAG_ACTIVITY_MULTIPLE_TASK;
@@ -986,7 +985,7 @@ class RecentTasks {
                 continue;
             }
 
-            res.add(createRecentTaskInfo(task, true /* stripExtras */));
+            res.add(createRecentTaskInfo(task, true /* stripExtras */, getTasksAllowed));
         }
         return res;
     }
@@ -1905,7 +1904,8 @@ class RecentTasks {
     /**
      * Creates a new RecentTaskInfo from a Task.
      */
-    ActivityManager.RecentTaskInfo createRecentTaskInfo(Task tr, boolean stripExtras) {
+    ActivityManager.RecentTaskInfo createRecentTaskInfo(Task tr, boolean stripExtras,
+            boolean getTasksAllowed) {
         final ActivityManager.RecentTaskInfo rti = new ActivityManager.RecentTaskInfo();
         // If the recent Task is detached, we consider it will be re-attached to the default
         // TaskDisplayArea because we currently only support recent overview in the default TDA.
@@ -1917,6 +1917,9 @@ class RecentTasks {
         rti.id = rti.isRunning ? rti.taskId : INVALID_TASK_ID;
         rti.persistentId = rti.taskId;
         rti.lastSnapshotData.set(tr.mLastTaskSnapshotData);
+        if (!getTasksAllowed) {
+            Task.trimIneffectiveInfo(tr, rti);
+        }
 
         // Fill in organized child task info for the task created by organizer.
         if (tr.mCreatedByOrganizer) {
@@ -1957,8 +1960,7 @@ class RecentTasks {
         // If a task has been removed in split window mode or in multi window mode, we should remove
         // its recent task first before adding a new one with fullscreen mode.
         final boolean isSplitOrMultiToFull = windowingMode == WINDOWING_MODE_FULLSCREEN
-                && (otherWindowingMode == WINDOWING_MODE_SPLIT_SCREEN_SECONDARY
-                || otherWindowingMode == WINDOWING_MODE_MULTI_WINDOW);
+                || otherWindowingMode == WINDOWING_MODE_MULTI_WINDOW;
         final boolean isEmptyOldTask = t2.getTaskInfo() == null
                 || t2.getTaskInfo().baseActivity == null;
 

@@ -22,6 +22,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.annotation.IntDef;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.content.Context;
@@ -37,7 +38,6 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
-import android.os.Parcelable;
 import android.os.Trace;
 import android.os.UserHandle;
 import android.provider.Settings;
@@ -64,6 +64,8 @@ import com.android.systemui.statusbar.notification.NotificationUtils;
 import com.android.systemui.util.drawable.DrawableSize;
 import com.android.systemui.tuner.TunerService;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -95,6 +97,10 @@ public class StatusBarIconView extends AnimatedImageView implements StatusIconDi
     public static final int STATE_ICON = 0;
     public static final int STATE_DOT = 1;
     public static final int STATE_HIDDEN = 2;
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({STATE_ICON, STATE_DOT, STATE_HIDDEN})
+    public @interface VisibleState { }
 
     private static final String TAG = "StatusBarIconView";
     private static final Property<StatusBarIconView, Float> ICON_APPEAR_AMOUNT
@@ -143,6 +149,7 @@ public class StatusBarIconView extends AnimatedImageView implements StatusIconDi
     private final Paint mDotPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private float mDotRadius;
     private int mStaticDotRadius;
+    @StatusBarIconView.VisibleState
     private int mVisibleState = STATE_ICON;
     private float mIconAppearAmount = 1.0f;
     private ObjectAnimator mIconAppearAnimator;
@@ -612,9 +619,12 @@ public class StatusBarIconView extends AnimatedImageView implements StatusIconDi
         }
     }
 
+    @Override
     public String toString() {
-        return "StatusBarIconView(slot=" + mSlot + " icon=" + mIcon
-            + " notification=" + mNotification + ")";
+        return "StatusBarIconView("
+                + "slot='" + mSlot + " alpha=" + getAlpha() + " icon=" + mIcon
+                + " iconColor=#" + Integer.toHexString(mIconColor)
+                + " notification=" + mNotification + ')';
     }
 
     public StatusBarNotification getNotification() {
@@ -805,11 +815,12 @@ public class StatusBarIconView extends AnimatedImageView implements StatusIconDi
     }
 
     @Override
-    public void setVisibleState(int state) {
+    public void setVisibleState(@StatusBarIconView.VisibleState int state) {
         setVisibleState(state, true /* animate */, null /* endRunnable */);
     }
 
-    public void setVisibleState(int state, boolean animate) {
+    @Override
+    public void setVisibleState(@StatusBarIconView.VisibleState int state, boolean animate) {
         setVisibleState(state, animate, null);
     }
 
@@ -921,6 +932,7 @@ public class StatusBarIconView extends AnimatedImageView implements StatusIconDi
         return mIconAppearAmount;
     }
 
+    @StatusBarIconView.VisibleState
     public int getVisibleState() {
         return mVisibleState;
     }

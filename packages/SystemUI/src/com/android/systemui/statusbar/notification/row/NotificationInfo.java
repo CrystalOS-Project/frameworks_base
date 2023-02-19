@@ -167,7 +167,7 @@ public class NotificationInfo extends LinearLayout implements NotificationGuts.G
     // used by standard ui
     private OnClickListener mOnDismissSettings = v -> {
         mPressedApply = true;
-        mGutsContainer.closeControls(v, true);
+        mGutsContainer.closeControls(v, /* save= */ true);
     };
 
     public NotificationInfo(Context context, AttributeSet attrs) {
@@ -602,10 +602,6 @@ public class NotificationInfo extends LinearLayout implements NotificationGuts.G
 
     @Override
     public void onFinishedClosing() {
-        if (mChosenImportance != null) {
-            mStartingChannelImportance = mChosenImportance;
-        }
-
         bindInlineControls();
 
         logUiEvent(NotificationControlsEvent.NOTIFICATION_CONTROLS_CLOSE);
@@ -665,7 +661,7 @@ public class NotificationInfo extends LinearLayout implements NotificationGuts.G
     }
 
     @Override
-    public boolean shouldBeSaved() {
+    public boolean shouldBeSavedOnClose() {
         return mPressedApply;
     }
 
@@ -688,6 +684,12 @@ public class NotificationInfo extends LinearLayout implements NotificationGuts.G
         if (save) {
             saveImportance();
         }
+
+        // Clear the selected importance when closing, so when when we open again,
+        // we starts from a clean state.
+        mChosenImportance = null;
+        mPressedApply = false;
+
         return false;
     }
 

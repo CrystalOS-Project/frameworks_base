@@ -40,6 +40,7 @@ import com.android.systemui.qs.tiles.CompassTile;
 import com.android.systemui.qs.tiles.DataSaverTile;
 import com.android.systemui.qs.tiles.DeviceControlsTile;
 import com.android.systemui.qs.tiles.DndTile;
+import com.android.systemui.qs.tiles.DreamTile;
 import com.android.systemui.qs.tiles.FlashlightTile;
 import com.android.systemui.qs.tiles.HeadsUpTile;
 import com.android.systemui.qs.tiles.HotspotTile;
@@ -106,6 +107,7 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<SleepModeTile> mSleepModeTileProvider;
     private final Provider<HeadsUpTile> mHeadsUpTileProvider;
     private final Provider<RefreshRateTile> mRefreshRateTileProvider;
+    private final Provider<DreamTile> mDreamTileProvider;
 
     private final Lazy<QSHost> mQsHostLazy;
     private final Provider<CustomTile.Builder> mCustomTileBuilderProvider;
@@ -147,7 +149,8 @@ public class QSFactoryImpl implements QSFactory {
             Provider<CompassTile> compassTileProvider,
             Provider<SleepModeTile> sleepModeTileProvider,
             Provider<HeadsUpTile> headsUpTileProvider,
-            Provider<RefreshRateTile> refreshRateTileProvider) {
+            Provider<RefreshRateTile> refreshRateTileProvider,
+            Provider<DreamTile> dreamTileProvider) {
         mQsHostLazy = qsHostLazy;
         mCustomTileBuilderProvider = customTileBuilderProvider;
 
@@ -185,6 +188,7 @@ public class QSFactoryImpl implements QSFactory {
         mSleepModeTileProvider = sleepModeTileProvider;
         mHeadsUpTileProvider = headsUpTileProvider;
         mRefreshRateTileProvider = refreshRateTileProvider;
+        mDreamTileProvider = dreamTileProvider;
     }
 
     /** Creates a tile with a type based on {@code tileSpec} */
@@ -268,6 +272,8 @@ public class QSFactoryImpl implements QSFactory {
                 return mHeadsUpTileProvider.get();
             case "refresh_rate":
                 return mRefreshRateTileProvider.get();
+            case "dream":
+                return mDreamTileProvider.get();
         }
 
         // Custom tiles

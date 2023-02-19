@@ -3344,9 +3344,26 @@ public final class Settings {
                     }
                 }
 
-                // Fetch all flags for the namespace at once for caching purposes
-                Bundle b = cp.call(cr.getAttributionSource(),
-                        mProviderHolder.mUri.getAuthority(), mCallListCommand, null, args);
+                Bundle b;
+                // b/252663068: if we're in system server and the caller did not call
+                // clearCallingIdentity, the read would fail due to mismatched AttributionSources.
+                // TODO(b/256013480): remove this bypass after fixing the callers in system server.
+                if (namespace.equals(DeviceConfig.NAMESPACE_DEVICE_POLICY_MANAGER)
+                        && Settings.isInSystemServer()
+                        && Binder.getCallingUid() != Process.myUid()) {
+                    final long token = Binder.clearCallingIdentity();
+                    try {
+                        // Fetch all flags for the namespace at once for caching purposes
+                        b = cp.call(cr.getAttributionSource(),
+                                mProviderHolder.mUri.getAuthority(), mCallListCommand, null, args);
+                    } finally {
+                        Binder.restoreCallingIdentity(token);
+                    }
+                } else {
+                    // Fetch all flags for the namespace at once for caching purposes
+                    b = cp.call(cr.getAttributionSource(),
+                            mProviderHolder.mUri.getAuthority(), mCallListCommand, null, args);
+                }
                 if (b == null) {
                     // Invalid response, return an empty map
                     return keyValues;
@@ -5530,9 +5547,18 @@ public final class Settings {
         @Readable
         public static final String MULTI_AUDIO_FOCUS_ENABLED = "multi_audio_focus_enabled";
 
+       /**  
+         * Whether desktop mode is enabled or not.
+         * 0 = off
+         * 1 = on
+         * @hide
+         */
+        @Readable
+        public static final String DESKTOP_MODE = "desktop_mode";
+
         /**
          * Unlock keystore with fingerprint after reboot
-         * @hide 
+         * @hide
          */
         public static final String FP_UNLOCK_KEYSTORE = "fp_unlock_keystore";
 
@@ -5543,7 +5569,7 @@ public final class Settings {
          */
         public static final String AUTO_BRIGHTNESS_ONE_SHOT = "auto_brightness_one_shot";
 
-	/**
+	    /**
          * Whether to play notification sound and vibration if screen is ON
          * 0 - never
          * 1 - always
@@ -5551,35 +5577,35 @@ public final class Settings {
          */
         public static final String NOTIFICATION_SOUND_VIB_SCREEN_ON = "notification_sound_vib_screen_on";
 
-	/**
+	    /**
          * Whether to show heads up only for dialer and sms apps
          * @hide
          */
         public static final String LESS_BORING_HEADS_UP = "less_boring_heads_up";
 
-	/**
+	    /**
          * Settings Dashboard Style
          * @hide
          */
         public static final String SETTINGS_DASHBOARD_STYLE = "settings_dashboard_style";
 
-	/**
-	 * Settings Base Layout
-	 * @hide
-	 */
-	public static final String ALT_SETTINGS_LAYOUT = "alt_settings_layout";
+	    /**
+	     * Settings Base Layout
+	     * @hide
+	    */
+	    public static final String ALT_SETTINGS_LAYOUT = "alt_settings_layout";
 
-	/**
-	 * Settings Homepage Layout
-	 * @hide
-	 */
-	public static final String USE_STOCK_LAYOUT = "use_stock_layout";
+	    /**
+	     * Settings Homepage Layout
+	     * @hide
+	    */
+	    public static final String USE_STOCK_LAYOUT = "use_stock_layout";
 
-	/**
-	 * Settings UserCard
-	 * @hide
-	 */
-	public static final String DISABLE_USERCARD = "disable_usercard";
+	    /**
+	     * Settings UserCard
+	     * @hide
+	    */
+	    public static final String DISABLE_USERCARD = "disable_usercard";
 
         /**
          * Whether the phone vibrates on call connect
@@ -5599,13 +5625,13 @@ public final class Settings {
          */
         public static final String VIBRATE_ON_DISCONNECT = "vibrate_on_disconnect";
 
-	/**
+	    /**
          * Whether or not volume button music controls should be enabled to seek media tracks
          * @hide
          */
         public static final String VOLBTN_MUSIC_CONTROLS = "volbtn_music_controls";
 
-	/**
+	    /**
          * Whether to allow one finger quick settings expansion on the side of the statusbar.
          * 0 = 0ff, 1 = right, 2 = left, 3 = both
          * @hide
@@ -5629,31 +5655,31 @@ public final class Settings {
          */
         public static final String ROAMING_INDICATOR_ICON = "roaming_indicator_icon";
 
-	/**
+	    /**
          * Enable statusbar double tap gesture to put device to sleep
          * @hide
          */
         public static final String DOUBLE_TAP_SLEEP_GESTURE = "double_tap_sleep_gesture";
 
-	/**
+	    /**
          * Double tap on lockscreen to sleep
          * @hide
          */
         public static final String DOUBLE_TAP_SLEEP_LOCKSCREEN = "double_tap_sleep_lockscreen";
 
-	/**
+	    /**
          * Use doubletap as doze pulse triggers
          * @hide
          */
         public static final String DOZE_TRIGGER_DOUBLETAP = "doze_trigger_doubletap";
 
-	/**
+	    /**
          * Hide Statusbar on LockScreen
          * @hide
          */
         public static final String HIDE_LOCKSCREEN_STATUS_BAR = "hide_lockscreen_status_bar";
 
-	/**
+	    /**
          * Whether to show the battery info on the lockscreen while charging
          * @hide
          */
@@ -5667,7 +5693,7 @@ public final class Settings {
          */
         public static final String LOCKSCREEN_BATTERY_INFO_TEMP_UNIT = "lockscreen_charge_temp_unit";
 
-	/**
+	    /**
          * Whether to show the kill app button in notification guts
          * @hide
          */
@@ -5726,7 +5752,7 @@ public final class Settings {
         @Readable
         public static final String BURN_IN_PROTECTION_INTERVAL = "burn_in_protection_interval";
 		
-	/**
+	    /**
          * @hide
          */
         public static final String USE_TILES_ON_SECURE_KEYGUARD = "use_tiles_on_secure_keyguard";
@@ -5820,7 +5846,7 @@ public final class Settings {
          */
         public static final String POWER_MENU_ANIMATIONS = "power_menu_animations";
 
-	/**
+	    /**
          * @hide
          */
         public static final String VOLUME_MEDIA_OUTPUT_TOGGLE = "volume_media_output_toggle";
@@ -5946,7 +5972,7 @@ public final class Settings {
          */
         public static final String QS_FOOTER_SHOW_SERVICES = "qs_footer_show_services";
 		
-	/**
+	    /**
          * Enable/disable Bluetooth Battery bar
          * @hide
          */
@@ -6238,6 +6264,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(TRANSPARENT_POWER_MENU);
             PRIVATE_SETTINGS.add(TRANSPARENT_POWER_DIALOG_DIM);
             PRIVATE_SETTINGS.add(FORCE_FULLSCREEN_CUTOUT_APPS);
+            PRIVATE_SETTINGS.add(DESKTOP_MODE);
         }
 
         /**
@@ -7284,6 +7311,26 @@ public final class Settings {
         public static final String BLUETOOTH_ADDR_VALID = "bluetooth_addr_valid";
 
         /**
+         * This is used by LocalBluetoothLeBroadcast to store the broadcast program info.
+         * @hide
+         */
+        public static final String BLUETOOTH_LE_BROADCAST_PROGRAM_INFO =
+                "bluetooth_le_broadcast_program_info";
+
+        /**
+         * This is used by LocalBluetoothLeBroadcast to store the broadcast code.
+         * @hide
+         */
+        public static final String BLUETOOTH_LE_BROADCAST_CODE = "bluetooth_le_broadcast_code";
+
+        /**
+         * This is used by LocalBluetoothLeBroadcast to store the app source name.
+         * @hide
+         */
+        public static final String BLUETOOTH_LE_BROADCAST_APP_SOURCE_NAME =
+                "bluetooth_le_broadcast_app_source_name";
+
+        /**
          * Setting to indicate that on device captions are enabled.
          *
          * @hide
@@ -8029,6 +8076,13 @@ public final class Settings {
         @Readable
         public static final String TRUST_AGENTS_INITIALIZED =
                 "trust_agents_initialized";
+
+        /**
+         * Set to 1 by the system after the list of known trust agents have been initialized.
+         * @hide
+         */
+        public static final String KNOWN_TRUST_AGENTS_INITIALIZED =
+                "known_trust_agents_initialized";
 
         /**
          * The Logging ID (a unique 64-bit value) as a hex string.
@@ -9766,14 +9820,63 @@ public final class Settings {
         public static final String SCREENSAVER_DEFAULT_COMPONENT = "screensaver_default_component";
 
         /**
-         * The complications that are enabled to be shown over the screensaver by the user. Holds
-         * a comma separated list of
-         * {@link com.android.settingslib.dream.DreamBackend.ComplicationType}.
+         * Whether complications are enabled to be shown over the screensaver by the user.
          *
          * @hide
          */
-        public static final String SCREENSAVER_ENABLED_COMPLICATIONS =
-                "screensaver_enabled_complications";
+        public static final String SCREENSAVER_COMPLICATIONS_ENABLED =
+                "screensaver_complications_enabled";
+
+
+        /**
+         * Default, indicates that the user has not yet started the dock setup flow.
+         *
+         * @hide
+         */
+        public static final int DOCK_SETUP_NOT_STARTED = 0;
+
+        /**
+         * Indicates that the user has started but not yet completed dock setup.
+         * One of the possible states for {@link #DOCK_SETUP_STATE}.
+         *
+         * @hide
+         */
+        public static final int DOCK_SETUP_STARTED = 1;
+
+        /**
+         * Indicates that the user has snoozed dock setup and will complete it later.
+         * One of the possible states for {@link #DOCK_SETUP_STATE}.
+         *
+         * @hide
+         */
+        public static final int DOCK_SETUP_PAUSED = 2;
+
+        /**
+         * Indicates that the user has completed dock setup.
+         * One of the possible states for {@link #DOCK_SETUP_STATE}.
+         *
+         * @hide
+         */
+        public static final int DOCK_SETUP_COMPLETED = 10;
+
+        /** @hide */
+        @Retention(RetentionPolicy.SOURCE)
+        @IntDef({
+                DOCK_SETUP_NOT_STARTED,
+                DOCK_SETUP_STARTED,
+                DOCK_SETUP_PAUSED,
+                DOCK_SETUP_COMPLETED
+        })
+        public @interface DockSetupState {
+        }
+
+        /**
+         * Defines the user's current state of dock setup.
+         * The possible states are defined in {@link DockSetupState}.
+         *
+         * @hide
+         */
+        public static final String DOCK_SETUP_STATE = "dock_setup_state";
 
         /**
          * The default NFC payment component
@@ -10285,6 +10388,43 @@ public final class Settings {
          */
         @Readable
         public static final String FACE_UNLOCK_RE_ENROLL = "face_unlock_re_enroll";
+
+        /**
+         * The time (in millis) to wait for a power button before sending a
+         * successful auth in to keyguard(for side fingerprint)
+         * @hide
+         */
+        @Readable
+        public static final String FINGERPRINT_SIDE_FPS_KG_POWER_WINDOW =
+                "fingerprint_side_fps_kg_power_window";
+
+        /**
+         * The time (in millis) to wait for a power button before sending
+         * a successful auth in biometric prompt(for side fingerprint)
+         * @hide
+         */
+        @Readable
+        public static final String FINGERPRINT_SIDE_FPS_BP_POWER_WINDOW =
+                "fingerprint_side_fps_bp_power_window";
+
+        /**
+         * The time (in millis) that a finger tap will wait for a power button
+         * before dismissing the power dialog during enrollment(for side
+         * fingerprint)
+         * @hide
+         */
+        @Readable
+        public static final String FINGERPRINT_SIDE_FPS_ENROLL_TAP_WINDOW =
+                "fingerprint_side_fps_enroll_tap_window";
+
+        /**
+         * The time (in millis) that a power event will ignore future authentications
+         * (for side fingerprint)
+         * @hide
+         */
+        @Readable
+        public static final String FINGERPRINT_SIDE_FPS_AUTH_DOWNTIME =
+                "fingerprint_side_fps_auth_downtime";
 
         /**
          * Whether or not debugging is enabled.
@@ -11157,6 +11297,13 @@ public final class Settings {
         public static final String MEDIA_CONTROLS_RESUME = "qs_media_resumption";
 
         /**
+         * Whether to enable media controls on lock screen.
+         * When enabled, media controls will appear on lock screen.
+         * @hide
+         */
+        public static final String MEDIA_CONTROLS_LOCK_SCREEN = "media_controls_lock_screen";
+
+        /**
          * Controls whether contextual suggestions can be shown in the media controls.
          * @hide
          */
@@ -11677,6 +11824,23 @@ public final class Settings {
         public static final String SCARLET_AGGRESSIVE_MODE_SENSORS_TOGGLE = "scarlet_aggressive_mode_sensors_toggle";
 
         /**
+         * Whether or not adaptive charging feature is enabled by user.
+         * Type: int (0 for false, 1 for true)
+         * Default: 1
+         *
+         * @hide
+         */
+        public static final String ADAPTIVE_CHARGING_ENABLED = "adaptive_charging_enabled";
+
+        /**
+         * Whether battery saver is currently set to different schedule mode.
+         *
+         * @hide
+         */
+        public static final String EXTRA_AUTOMATIC_POWER_SAVE_MODE =
+                "extra_automatic_power_save_mode";
+
+        /**
          * These entries are considered common between the personal and the managed profile,
          * since the managed profile doesn't get to change them.
          */
@@ -11800,6 +11964,14 @@ public final class Settings {
          */
         @Readable
         public static final String ADD_USERS_WHEN_LOCKED = "add_users_when_locked";
+
+        /**
+         * Whether guest user should be removed on exit from guest mode.
+         * <p>
+         * Type: int
+         * @hide
+         */
+        public static final String REMOVE_GUEST_ON_EXIT = "remove_guest_on_exit";
 
         /**
          * Whether applying ramping ringer on incoming phone call ringtone.
@@ -12114,6 +12286,7 @@ public final class Settings {
          * <li>{@link BatteryManager#BATTERY_PLUGGED_AC} to stay on for AC charger</li>
          * <li>{@link BatteryManager#BATTERY_PLUGGED_USB} to stay on for USB charger</li>
          * <li>{@link BatteryManager#BATTERY_PLUGGED_WIRELESS} to stay on for wireless charger</li>
+         * <li>{@link BatteryManager#BATTERY_PLUGGED_DOCK} to stay on for dock charger</li>
          * </ul>
          * These values can be OR-ed together.
          */

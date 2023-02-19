@@ -282,6 +282,7 @@ public class ShortcutService extends IShortcutService.Stub {
 
     final Object mLock = new Object();
     private final Object mNonPersistentUsersLock = new Object();
+    private final Object mWtfLock = new Object();
 
     private static List<ResolveInfo> EMPTY_RESOLVE_INFO = new ArrayList<>(0);
 
@@ -446,11 +447,11 @@ public class ShortcutService extends IShortcutService.Stub {
     @interface ShortcutOperation {
     }
 
-    @GuardedBy("mLock")
-    private final AtomicInteger mWtfCount = new AtomicInteger();
+    @GuardedBy("mWtfLock")
+    private int mWtfCount = 0;
 
-    @GuardedBy("mLock")
-    private final AtomicReference<Exception> mLastWtfStacktrace = new AtomicReference<>();
+    @GuardedBy("mWtfLock")
+    private Exception mLastWtfStacktrace;
 
     @GuardedBy("mLock")
     private final MetricsLogger mMetricsLogger = new MetricsLogger();
@@ -4729,13 +4730,15 @@ public class ShortcutService extends IShortcutService.Stub {
 
                 mStatLogger.dump(pw, "  ");
 
-                pw.println();
-                pw.print("  #Failures: ");
-                pw.println(mWtfCount.get());
+                synchronized (mWtfLock) {
+                    pw.println();
+                    pw.print("  #Failures: ");
+                    pw.println(mWtfCount);
 
-                if (mLastWtfStacktrace.get() != null) {
-                    pw.print("  Last failure stack trace: ");
-                    pw.println(Log.getStackTraceString(mLastWtfStacktrace.get()));
+                    if (mLastWtfStacktrace != null) {
+                        pw.print("  Last failure stack trace: ");
+                        pw.println(Log.getStackTraceString(mLastWtfStacktrace));
+                    }
                 }
 
                 pw.println();
@@ -5150,8 +5153,10 @@ public class ShortcutService extends IShortcutService.Stub {
         if (e == null) {
             e = new RuntimeException("Stacktrace");
         }
-        mWtfCount.getAndIncrement();
-        mLastWtfStacktrace.set(new Exception("Last failure was logged here:"));
+        synchronized (mWtfLock) {
+            mWtfCount++;
+            mLastWtfStacktrace = new Exception("Last failure was logged here:");
+        }
         Slog.wtf(TAG, message, e);
     }
 

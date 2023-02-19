@@ -221,6 +221,7 @@ public class UsageStatsService extends SystemService implements
     final SparseArray<ActivityData> mVisibleActivities = new SparseArray();
     @GuardedBy("mLock")
     private final SparseArray<LaunchTimeAlarmQueue> mLaunchTimeAlarmQueues = new SparseArray<>();
+    @GuardedBy("mUsageEventListeners") // Don't hold the main lock when calling out
     private final ArraySet<UsageStatsManagerInternal.UsageEventListener> mUsageEventListeners =
             new ArraySet<>();
     private final CopyOnWriteArraySet<UsageStatsManagerInternal.EstimatedLaunchTimeChangedListener>
@@ -1173,9 +1174,11 @@ public class UsageStatsService extends SystemService implements
             service.reportEvent(event);
         }
 
-        final int size = mUsageEventListeners.size();
-        for (int i = 0; i < size; ++i) {
-            mUsageEventListeners.valueAt(i).onUsageEvent(userId, event);
+        synchronized (mUsageEventListeners) {
+            final int size = mUsageEventListeners.size();
+            for (int i = 0; i < size; ++i) {
+                mUsageEventListeners.valueAt(i).onUsageEvent(userId, event);
+            }
         }
     }
 
@@ -1666,7 +1669,7 @@ public class UsageStatsService extends SystemService implements
      * Called via the local interface.
      */
     private void registerListener(@NonNull UsageStatsManagerInternal.UsageEventListener listener) {
-        synchronized (mLock) {
+        synchronized (mUsageEventListeners) {
             mUsageEventListeners.add(listener);
         }
     }
@@ -1676,7 +1679,7 @@ public class UsageStatsService extends SystemService implements
      */
     private void unregisterListener(
             @NonNull UsageStatsManagerInternal.UsageEventListener listener) {
-        synchronized (mLock) {
+        synchronized (mUsageEventListeners) {
             mUsageEventListeners.remove(listener);
         }
     }
@@ -3039,7 +3042,8 @@ public class UsageStatsService extends SystemService implements
                     if (userStats == null) {
                         return; // user was stopped or removed
                     }
-                    userStats.applyRestoredPayload(key, payload);
+                    final Set<String> restoredApps = userStats.applyRestoredPayload(key, payload);
+                    mAppStandby.restoreAppsToRare(restoredApps, user);
                 }
             }
         }
