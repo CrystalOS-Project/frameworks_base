@@ -2267,13 +2267,13 @@ public final class InputMethodManager {
 
         if (windowGainingFocus == null) {
             windowGainingFocus = view.getWindowToken();
-            if (windowGainingFocus == null) {
+            if (windowGainingFocus == null || viewRoot == null) {
                 Log.e(TAG, "ABORT input: ServedView must be attached to a Window");
                 return false;
             }
             startInputFlags = getStartInputFlags(view, startInputFlags);
-            softInputMode = view.getViewRootImpl().mWindowAttributes.softInputMode;
-            windowFlags = view.getViewRootImpl().mWindowAttributes.flags;
+            softInputMode = viewRoot.mWindowAttributes.softInputMode;
+            windowFlags = viewRoot.mWindowAttributes.flags;
         }
 
         // Now we need to get an input connection from the served view.
