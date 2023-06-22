@@ -27,4 +27,10 @@
     <!-- Whether or not we should show vendor mismatch message -->
     <java-symbol type="bool" name="config_show_vendor_mismatch_message" />
 
+    <!-- Should we listen for fingerprints when the screen is off?  Devices
+         with a rear-mounted sensor want this, but certain devices have
+         the sensor embedded in the power key and listening all the time
+         causes a poor experience. -->
+    <java-symbol type="bool" name="config_fingerprintWakeAndUnlock" />
+
 </resources>
